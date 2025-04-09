@@ -67,7 +67,7 @@ public class TabelaMesto extends AbstractTableModel{
         fireTableDataChanged();
     }
 
-    public void setPretragaZaposleni(ArrayList<Mesto> pretrazenoMesto) {
+    public void setPretragaMesto(ArrayList<Mesto> pretrazenoMesto) {
         this.listaMesta = pretrazenoMesto;
         fireTableDataChanged();
     }

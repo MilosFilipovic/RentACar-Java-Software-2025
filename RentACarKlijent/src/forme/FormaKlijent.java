@@ -46,9 +46,12 @@ public class FormaKlijent extends javax.swing.JFrame {
         btnOsveziTabeluKlijenata = new javax.swing.JButton();
         btnIzmeniKlijenta = new javax.swing.JButton();
         btnKreirajKlijenta = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         txtPretraziKlijenta = new javax.swing.JTextField();
         btnPretraziKlijenta = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtPretraziID = new javax.swing.JTextField();
+        btnPretraziIDKlijenta = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,14 +103,23 @@ public class FormaKlijent extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Search by name:");
-
         btnPretraziKlijenta.setText("Search");
         btnPretraziKlijenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPretraziKlijentaActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("Search by ID:");
+
+        btnPretraziIDKlijenta.setText("Search");
+        btnPretraziIDKlijenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretraziIDKlijentaActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Search by client name or place name:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,28 +128,37 @@ public class FormaKlijent extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnOsveziTabeluKlijenata)
-                                .addGap(96, 96, 96)
-                                .addComponent(btnKreirajKlijenta))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtPretraziKlijenta)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnIzmeniKlijenta)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnOsveziTabeluKlijenata)
+                                        .addGap(96, 96, 96)
+                                        .addComponent(btnKreirajKlijenta))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(txtPretraziID)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnObrisiKlijenta)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnIzmeniKlijenta)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnObrisiKlijenta)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnNazad))
+                                    .addComponent(btnPretraziIDKlijenta)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnNazad))
-                            .addComponent(btnPretraziKlijenta))
-                        .addGap(0, 3, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(txtPretraziKlijenta, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnPretraziKlijenta, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(9, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,10 +174,15 @@ public class FormaKlijent extends javax.swing.JFrame {
                     .addComponent(btnNazad))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(txtPretraziID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPretraziIDKlijenta))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
                     .addComponent(txtPretraziKlijenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPretraziKlijenta))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(140, 140, 140))
         );
 
         pack();
@@ -241,14 +267,15 @@ public class FormaKlijent extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Enter client name!");
             return;
         }
-        
-        String ime = txtPretraziKlijenta.getText();
-        
+
+        String imeMesto = txtPretraziKlijenta.getText();
+
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_KLIJENTA);
-        kz.setParametar(ime);
+        kz.setParametar(imeMesto);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
+
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
 
         ArrayList<Klijent> pretraziK = (ArrayList<Klijent>) so.getOdgovor();
@@ -259,6 +286,35 @@ public class FormaKlijent extends javax.swing.JFrame {
         TabelaKlijent tk = (TabelaKlijent) tblKlijent.getModel();
         tk.setPretragaKlijent(pretraziK);
     }//GEN-LAST:event_btnPretraziKlijentaActionPerformed
+
+    private void btnPretraziIDKlijentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziIDKlijentaActionPerformed
+        if(txtPretraziID.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter client ID!");
+            return;
+        }
+        
+        int id = Integer.parseInt(txtPretraziID.getText());
+        
+        
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.PRETRAZI_IDKLIJENTA);
+        kz.setParametar(id);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        
+        
+        ArrayList<Klijent> pretraziK = (ArrayList<Klijent>) so.getOdgovor();
+
+        tblKlijent.removeAll();
+
+        
+         
+        TabelaKlijent tk = (TabelaKlijent) tblKlijent.getModel();
+        tk.setPretragaKlijent(pretraziK);
+    }//GEN-LAST:event_btnPretraziIDKlijentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,10 +357,13 @@ public class FormaKlijent extends javax.swing.JFrame {
     private javax.swing.JButton btnNazad;
     private javax.swing.JButton btnObrisiKlijenta;
     private javax.swing.JButton btnOsveziTabeluKlijenata;
+    private javax.swing.JButton btnPretraziIDKlijenta;
     private javax.swing.JButton btnPretraziKlijenta;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblKlijent;
+    private javax.swing.JTextField txtPretraziID;
     private javax.swing.JTextField txtPretraziKlijenta;
     // End of variables declaration//GEN-END:variables
 

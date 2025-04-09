@@ -44,8 +44,10 @@ public class TabelaKlijent extends AbstractTableModel{
     public Object getValueAt(int rowIndex, int columnIndex) {
         Klijent k = listaKlijent.get(rowIndex);
 
+                
         switch (columnIndex) {
             case 0:
+                
                 return k.getIdKlijent();
             case 1:
                 return k.getIme();
@@ -77,6 +79,8 @@ public class TabelaKlijent extends AbstractTableModel{
         this.listaKlijent = pretraziK;
         fireTableDataChanged();
     }
+
+    
     
     
     

@@ -54,6 +54,9 @@ public class FormaMesto extends javax.swing.JFrame {
         btnPretraziMesto = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtPretraziMesto = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtPretragaPoID = new javax.swing.JTextField();
+        btnPretraziMestoPoID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,6 +121,15 @@ public class FormaMesto extends javax.swing.JFrame {
 
         jLabel1.setText("City:");
 
+        jLabel2.setText("ID:");
+
+        btnPretraziMestoPoID.setText("Search");
+        btnPretraziMestoPoID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretraziMestoPoIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,27 +150,33 @@ public class FormaMesto extends javax.swing.JFrame {
                         .addComponent(btnObrisiMesto))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPretragaPoID)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPretraziMestoPoID)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 78, Short.MAX_VALUE)
                         .addComponent(btnDodajMesto))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNovoMesto, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtNovaAdresa, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnIzmeniMesto))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAdresa)
                                     .addComponent(lblMesto))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNazad)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnIzmeniMesto, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnNazad, javax.swing.GroupLayout.Alignment.TRAILING))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,12 +202,18 @@ public class FormaMesto extends javax.swing.JFrame {
                         .addComponent(btnDodajMesto)
                         .addGap(18, 18, 18)
                         .addComponent(btnIzmeniMesto)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNazad)
                     .addComponent(btnPretraziMesto)
                     .addComponent(jLabel1)
                     .addComponent(txtPretraziMesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPretraziMestoPoID)
+                    .addComponent(jLabel2)
+                    .addComponent(txtPretragaPoID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(btnNazad)
                 .addContainerGap())
         );
 
@@ -317,8 +341,37 @@ public class FormaMesto extends javax.swing.JFrame {
 
          
         TabelaMesto tm = (TabelaMesto) tblMesta.getModel();
-        tm.setPretragaZaposleni(pretrazenoMesto);
+        tm.setPretragaMesto(pretrazenoMesto);
     }//GEN-LAST:event_btnPretraziMestoActionPerformed
+
+    private void btnPretraziMestoPoIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziMestoPoIDActionPerformed
+        if(txtPretragaPoID.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter place ID!");
+            return;
+        }
+        
+        int id = Integer.parseInt(txtPretragaPoID.getText());
+        
+        
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.PRETRAZI_IDMESTA);
+        kz.setParametar(id);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        
+        
+        ArrayList<Mesto> pretraziM = (ArrayList<Mesto>) so.getOdgovor();
+
+        tblMesta.removeAll();
+
+        
+         
+        TabelaMesto tm = (TabelaMesto) tblMesta.getModel();
+        tm.setPretragaMesto(pretraziM);
+    }//GEN-LAST:event_btnPretraziMestoPoIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,13 +415,16 @@ public class FormaMesto extends javax.swing.JFrame {
     private javax.swing.JButton btnObrisiMesto;
     private javax.swing.JButton btnOsveziTabeluMesta;
     private javax.swing.JButton btnPretraziMesto;
+    private javax.swing.JButton btnPretraziMestoPoID;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAdresa;
     private javax.swing.JLabel lblMesto;
     private javax.swing.JTable tblMesta;
     private javax.swing.JTextField txtNovaAdresa;
     private javax.swing.JTextField txtNovoMesto;
+    private javax.swing.JTextField txtPretragaPoID;
     private javax.swing.JTextField txtPretraziMesto;
     // End of variables declaration//GEN-END:variables
 
