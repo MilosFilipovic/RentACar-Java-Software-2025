@@ -22,6 +22,7 @@ public interface Operacije {
     public static final int OBRISI_RS = 8;
     public static final int IZMENI_SMENU = 9;
     public static final int PRETRAZI_SMENE = 31;
+    public static final int PRETRAZI_IDSMENE=44;
     
     public static final int VRATI_CB_ZAPOSLENIH = 10;
     public static final int VRATI_CB_SMENE = 11;
@@ -34,6 +35,7 @@ public interface Operacije {
     public static final int OBRISI_MESTO = 17;
     public static final int IZMENI_MESTO = 18;
     public static final int PRETRAZI_MESTA = 28;
+    public static final int PRETRAZI_IDMESTA=43;
     
     public static final int VRATI_KLIJENTE = 19;
     public static final int OBRISI_KLIJENTA = 20;
@@ -41,6 +43,8 @@ public interface Operacije {
     public static final int IZMENI_KLIJENTA = 22;
     public static final int PRETRAZI_KLIJENTA = 29;
     public static final int VRATI_CB_ADRESA = 32;
+    public static final int PRETRAZI_IDKLIJENTA=42;
+    
     
     
     public static final int VRATI_VOZILA = 23;
@@ -48,6 +52,7 @@ public interface Operacije {
     public static final int OBRISI_VOZILO = 25;
     public static final int IZMENI_VOZILO = 26;
     public static final int PRETRAZI_VOZILA = 30;
+    public static final int PRETRAZI_IDVOZILA=45;
     
     public static final int VRATI_REZERVACIJE = 34;
     public static final int KREIRAJ_STAVKU_REZ = 35;
@@ -57,6 +62,14 @@ public interface Operacije {
     public static final int VRATI_STAVKE = 39;
     public static final int OBRISI_STAVKU = 40;
     public static final int UPDATE_IZNOS = 41;
+    public static final int PRETRAZI_REZERVACIJUID=46;
+    public static final int PRETRAZI_REZERVACIJE_PO_MODELU_ILI_KLIJENTU=47;
+    public static final int PRETRAZI_REZERVACIJE_PO_ZAP=48;
+    
+    
+    
+    
+    
     
     
     
