@@ -371,6 +371,31 @@ public class DBBroker {
 
         return lista;
     }
+    
+    public ArrayList<RadnaSmena> vratiRSID(int idrs) {
+        ArrayList<RadnaSmena> lista = new ArrayList<>();
+        String upit = "SELECT * FROM radnasmena WHERE idSmena = ?";
+        try {
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, idrs); // Postavljamo parametar u upit
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                int id = rs.getInt("idSmena");
+               
+                LocalTime pocetakSmene = rs.getObject("pocetakSmene", LocalTime.class);
+                LocalTime krajSmene = rs.getObject("krajSmene", LocalTime.class);
+
+                RadnaSmena radnaSmena = new RadnaSmena(id, pocetakSmene, krajSmene);
+                lista.add(radnaSmena);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
 
     public ArrayList<Zaposleni> vratiCBZaposlene() {
         ArrayList<Zaposleni> lista = new ArrayList<>();
@@ -628,6 +653,26 @@ public class DBBroker {
 
         return lista;
     }
+    
+    public ArrayList<Mesto> vratiIDMesta(int id) {
+        ArrayList<Mesto> lista = new ArrayList<>();
+        String upit = "SELECT * FROM mesto WHERE idMesta=?";
+        try {
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, id); // Postavljamo parametar u upit
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                Mesto m = new Mesto(rs.getInt("idMesta"), rs.getString("nazivMesta"), rs.getString("adresa"));
+                lista.add(m);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
 
     public ArrayList<Klijent> vratiKlijente() {
         ArrayList<Klijent> lista = new ArrayList<>();
@@ -744,11 +789,53 @@ public class DBBroker {
     }
     
     public ArrayList<Klijent> pretraziKlijente(String imek) {
+        
         ArrayList<Klijent> lista = new ArrayList<>();
-        String upit = "SELECT * FROM klijent WHERE ime LIKE ?";
+        String upit = "SELECT k.* FROM klijent k JOIN mesto m ON k.idMesta = m.idMesta WHERE m.nazivMesta LIKE ? OR k.ime LIKE ?";
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
-            ps.setString(1, "%" + imek + "%"); // Postavljamo parametar u upit
+            String filter = "%" + imek + "%";
+            ps.setString(1, filter);
+            ps.setString(2, filter);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                Klijent k = new Klijent(rs.getInt("idKlijent"), rs.getString("ime"), rs.getString("prezime"), rs.getString("telefon"), rs.getInt("idMesta"));
+                lista.add(k);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+        
+        
+//        ArrayList<Klijent> lista = new ArrayList<>();
+//        String upit = "SELECT * FROM klijent WHERE ime LIKE ?";
+//        try {
+//            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+//            ps.setString(1, "%" + imek + "%"); // Postavljamo parametar u upit
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//
+//                Klijent k = new Klijent(rs.getInt("idKlijent"), rs.getString("ime"), rs.getString("prezime"), rs.getString("telefon"), rs.getInt("idMesta"));
+//                lista.add(k);
+//
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return lista;
+    }
+    
+    public ArrayList<Klijent> vratiKlijentaPoID(int id) {
+        ArrayList<Klijent> lista = new ArrayList<>();
+        String upit = "SELECT * FROM klijent WHERE idKlijent=?";
+        try {
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, id); // Postavljamo parametar u upit
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -922,6 +1009,27 @@ public class DBBroker {
         return lista;
     }
 
+    public ArrayList<Vozilo> vratiAutoID(int idvozila) {
+        ArrayList<Vozilo> lista = new ArrayList<>();
+        String upit = "SELECT * FROM vozilo WHERE idVozilo = ?";
+        try {
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, idvozila); // Postavljamo parametar u upit
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                Vozilo v = new Vozilo(rs.getInt("idVozilo"), rs.getString("model"), rs.getDouble("cenaDana"),
+                        rs.getString("karoserija"), rs.getString("konjaza"), rs.getString("kubikaza"), rs.getString("boja"));
+                lista.add(v);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
+    
     public ArrayList<Rezervacija> vratiRezervacije() {
         ArrayList<Rezervacija> lista = new ArrayList<>();
         String upit = "SELECT * FROM rezervacija";
@@ -950,7 +1058,7 @@ public class DBBroker {
         return lista;
     }
 
-    private Klijent vratiKlijenta(int id) {
+    public Klijent vratiKlijenta(int id) {
 
         Klijent klijent = null;
         String upit = "SELECT * FROM klijent WHERE idKlijent = ?";
@@ -1280,6 +1388,159 @@ public class DBBroker {
         return false;
         }
     }
+
+    public ArrayList<Rezervacija> vratiRezPoID(int idrez) {
+        ArrayList<Rezervacija> lista = new ArrayList<>();
+        String upit = "SELECT * FROM rezervacija WHERE idRezervacije = ?";
+        try {
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, idrez); // Postavljamo parametar u upit
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                int id = rs.getInt("idRezervacije");
+               
+                LocalDate datumUzimanja = rs.getObject("datumPreuzimanja", LocalDate.class);
+                LocalDate datumVracanja = rs.getObject("datumVracanja", LocalDate.class);
+                
+                Klijent klijent = vratiKlijenta(rs.getInt("idKlijent"));
+                
+                ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
+
+                Rezervacija rez = new Rezervacija(id, datumUzimanja, datumVracanja, rs.getDouble("iznosRezervacije"),
+                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
+                
+                lista.add(rez);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
+
+//    public ArrayList<Rezervacija> vratiRezModelKlijent(String modelKlijent) {
+//        ArrayList<Rezervacija> lista = new ArrayList<>();
+//        String upit = "SELECT * FROM rezervacija WHERE datumPreuzimanja = ?";
+//        try {
+//            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+//            ps.setString(1, modelKlijent); // Postavljamo parametar u upit
+//            ps.setString(2, modelKlijent);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//
+//                int id = rs.getInt("idRezervacije");
+//               
+//                LocalDate datumUzimanja = rs.getObject("datumPreuzimanja", LocalDate.class);
+//                LocalDate datumVracanja = rs.getObject("datumVracanja", LocalDate.class);
+//                
+//                Klijent klijent = vratiKlijenta(rs.getInt("idKlijent"));
+//                
+//                ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
+//
+//                Rezervacija rez = new Rezervacija(id, datumUzimanja, datumVracanja, rs.getDouble("iznosRezervacije"),
+//                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
+//                
+//                lista.add(rez);
+//
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return lista;
+//    }
+
+    public ArrayList<Rezervacija> vratiRezPoZaposlenom(int idzap) {
+        ArrayList<Rezervacija> lista = new ArrayList<>();
+        String upit = "SELECT * FROM rezervacija WHERE idZaposleni = ?";
+        try {
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            ps.setInt(1, idzap); // Postavljamo parametar u upit
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                int id = rs.getInt("idRezervacije");
+               
+                LocalDate datumUzimanja = rs.getObject("datumPreuzimanja", LocalDate.class);
+                LocalDate datumVracanja = rs.getObject("datumVracanja", LocalDate.class);
+                
+                Klijent klijent = vratiKlijenta(rs.getInt("idKlijent"));
+                
+                ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
+
+                Rezervacija rez = new Rezervacija(id, datumUzimanja, datumVracanja, rs.getDouble("iznosRezervacije"),
+                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
+                
+                lista.add(rez);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
+
+    
+    public ArrayList<Rezervacija> vratiRezModelKlijent(String modelKlijent) {
+
+        ArrayList<Rezervacija> lista = new ArrayList<>();
+
+        String upit = """
+                      SELECT DISTINCT r.* 
+                      FROM rezervacija r 
+                      JOIN stavkarezervacije s ON r.idRezervacije = s.idRezervacije
+                      JOIN klijent k ON r.idKlijent = k.idKlijent
+                      JOIN vozilo v ON s.idVozilo = v.idVozilo
+                      WHERE (k.ime LIKE ? OR v.model LIKE ?)
+                      """;
+        
+        try {
+            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
+            String filter = "%" + modelKlijent + "%";
+            ps.setString(1, filter); // Omogućava pretragu po imenu klijenta
+            ps.setString(2, filter); // Omogućava pretragu po modelu automobila
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("idRezervacije");
+
+                LocalDate datumUz = rs.getObject("datumPreuzimanja", LocalDate.class);
+                LocalDate datumVr = rs.getObject("datumVracanja", LocalDate.class);
+
+                Klijent klijent = vratiKlijenta(rs.getInt("idKlijent"));
+                ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
+
+                Rezervacija rez = new Rezervacija(id, datumUz, datumVr,
+                        rs.getDouble("iznosRezervacije"),
+                        rs.getInt("idKlijent"),
+                        klijent,
+                        rs.getInt("idZaposleni"),
+                        listaStavki);
+                lista.add(rez);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return lista;
+    }
+
+    
+
+
+    
+
+    
+
+    
+
+    
 
 
     

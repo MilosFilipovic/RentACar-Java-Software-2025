@@ -6,6 +6,7 @@
 package logika;
 
 import baza.DBBroker;
+import java.lang.reflect.Array;
 import klase.Zaposleni;
 import klase.Mesto;
 import klase.RadnaSmena;
@@ -107,6 +108,12 @@ public class Kontroler {
         return dbb.pretraziSmene(pocetak);
     }
     
+    public ArrayList<RadnaSmena> pretraziRSID(int idsmene) {
+        int idrs=idsmene;
+        return dbb.vratiRSID(idrs);
+        
+    }
+    
      /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
     public ArrayList<Zaposleni> vratiCBZaposlene() {
@@ -168,6 +175,10 @@ public class Kontroler {
         return dbb.pretraziMesta(grad);
     }
     
+    public ArrayList<Mesto> pretraziIDMesta(int id) {
+        return dbb.vratiIDMesta(id);
+    }
+    
      /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
     public ArrayList<Klijent> vratiKlijente() {
@@ -204,6 +215,11 @@ public class Kontroler {
         return dbb.vratiAdrese();
     }
     
+    public ArrayList<Klijent> pretraziIDKlijenta(int id) {
+        
+        return dbb.vratiKlijentaPoID(id);
+    }
+    
      /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
     public ArrayList<Vozilo> vratiVozila() {
@@ -236,6 +252,10 @@ public class Kontroler {
         return dbb.pretraziVozila(model);
     }
 
+    
+    public ArrayList<Vozilo> pretraziIDVozila(int idvozila) {
+        return dbb.vratiAutoID(idvozila);
+    }
     /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
     public ArrayList<Rezervacija> vratiRezervacije() {
@@ -282,6 +302,31 @@ public class Kontroler {
     public boolean apdejtujIznos(int id) throws SQLException {
         return dbb.apdejtujIznosRezervacije(id);
     }
+
+    public ArrayList<Rezervacija> pretraziRezPoID(int idrez) {
+        return dbb.vratiRezPoID(idrez);
+    }
+
+    public ArrayList<Rezervacija> pretraziRezModelKlijent(String modelKlijent) {
+        System.out.println("Unos iz text fielda: '" + modelKlijent + "'");
+
+        return dbb.vratiRezModelKlijent(modelKlijent);
+    }
+
+    public ArrayList<Rezervacija> pretraziRezPoZap(int idzap) {
+        return dbb.vratiRezPoZaposlenom(idzap);
+    }
+
+    
+
+    
+
+    
+
+    
+
+    
+    
 
     
     

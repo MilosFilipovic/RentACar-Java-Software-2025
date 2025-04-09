@@ -121,6 +121,13 @@ public class ObradaKlijentskihZahteva extends Thread {
                     
                     break;
                     
+                    
+                case Operacije.PRETRAZI_IDSMENE:
+                    int idsmene = (int) kz.getParametar();
+                    ArrayList<RadnaSmena> pretrazena = Kontroler.getInstance().pretraziRSID(idsmene);
+                    so.setOdgovor(pretrazena);
+                    
+                    break;
                 /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
                     
                 case Operacije.VRATI_CB_ZAPOSLENIH:
@@ -190,7 +197,14 @@ public class ObradaKlijentskihZahteva extends Thread {
                     so.setOdgovor(pretrazenoM);
                     
                     break;
+                
                     
+                case Operacije.PRETRAZI_IDMESTA:
+                    int idmesta = (int) kz.getParametar();
+                    ArrayList<Mesto> pretrazenoMesto = Kontroler.getInstance().pretraziIDMesta(idmesta);
+                    so.setOdgovor(pretrazenoMesto);
+                    
+                    break;
                 /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
                     
                 case Operacije.VRATI_KLIJENTE:
@@ -233,6 +247,15 @@ public class ObradaKlijentskihZahteva extends Thread {
                     
                     break;
                     
+                case Operacije.PRETRAZI_IDKLIJENTA:
+                    int id = (int) kz.getParametar();
+                    ArrayList<Klijent> pretrazeniKID = Kontroler.getInstance().pretraziIDKlijenta(id);
+                    so.setOdgovor(pretrazeniKID);
+                    
+                    break;
+                    
+                    
+                
                 /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
                     
                 case Operacije.VRATI_VOZILA:
@@ -269,6 +292,13 @@ public class ObradaKlijentskihZahteva extends Thread {
                     
                     break;
                     
+                    
+                case Operacije.PRETRAZI_IDVOZILA:
+                    int idvozila = (int) kz.getParametar();
+                    ArrayList<Vozilo> pretrazenAuto = Kontroler.getInstance().pretraziIDVozila(idvozila);
+                    so.setOdgovor(pretrazenAuto);
+                    
+                    break;
                 /* ///////////////////////////////////////////////////////////////////////////////////////////// */
                     
                 case Operacije.VRATI_REZERVACIJE:
@@ -304,6 +334,30 @@ public class ObradaKlijentskihZahteva extends Thread {
                     so.setOdgovor(pretrazeneRez);
                     
                     break;
+                
+                case Operacije.PRETRAZI_REZERVACIJUID:
+                    int idrez = (int) kz.getParametar();
+                    ArrayList<Rezervacija> pronadjenaRez = Kontroler.getInstance().pretraziRezPoID(idrez);
+                    so.setOdgovor(pronadjenaRez);
+                    
+                    break;    
+                
+                    
+                case Operacije.PRETRAZI_REZERVACIJE_PO_ZAP:
+                    int idzap = (int) kz.getParametar();
+                    ArrayList<Rezervacija> rezPoZaposlenom = Kontroler.getInstance().pretraziRezPoZap(idzap);
+                    so.setOdgovor(rezPoZaposlenom);
+                    
+                    break;
+                    
+                case Operacije.PRETRAZI_REZERVACIJE_PO_MODELU_ILI_KLIJENTU:
+                    String modelKlijent = (String) kz.getParametar();
+                    
+
+                    ArrayList<Rezervacija> pretrazeneRezervacije = Kontroler.getInstance().pretraziRezModelKlijent(modelKlijent);
+                    so.setOdgovor(pretrazeneRezervacije);
+                    
+                    break;
                     
                 case Operacije.VRATI_STAVKE:
                     int rezID = (int) kz.getParametar();
@@ -320,10 +374,10 @@ public class ObradaKlijentskihZahteva extends Thread {
                     break;
                     
                 case Operacije.UPDATE_IZNOS:
-                    int id = (int) kz.getParametar();
+                    int idiznos = (int) kz.getParametar();
                 {
                     try {
-                        boolean izmenjenIznos=Kontroler.getInstance().apdejtujIznos(id);
+                        boolean izmenjenIznos=Kontroler.getInstance().apdejtujIznos(idiznos);
                         so.setOdgovor(izmenjenIznos);
                     } catch (SQLException ex) {
                         Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
