@@ -55,6 +55,14 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         ftxtDatumUzimanja = new javax.swing.JFormattedTextField();
         btnIzmeniRez = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        btnPretragaRezPoID = new javax.swing.JButton();
+        txtPretragaRezID = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtPretragaPoKlijentuIliModelu = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtPretragaPoZaposlenom = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,7 +121,7 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Enter date:");
+        jLabel2.setText("Date:");
 
         ftxtDatumUzimanja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
 
@@ -121,6 +129,27 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
         btnIzmeniRez.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIzmeniRezActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Enter ID:");
+
+        btnPretragaRezPoID.setText("Search");
+        btnPretragaRezPoID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretragaRezPoIDActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Client or model:");
+
+        jLabel1.setText("Insert one of the following:");
+
+        jLabel6.setText("Employee ID:");
+
+        txtPretragaPoZaposlenom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPretragaPoZaposlenomActionPerformed(evt);
             }
         });
 
@@ -136,20 +165,35 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnKreirajRezervaciju)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnKreirajRezervaciju)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnDodajStavkeRez, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel6))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(txtPretragaPoZaposlenom)
+                                            .addComponent(txtPretragaRezID, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(ftxtDatumUzimanja, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtPretragaPoKlijentuIliModelu, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnPretraziRezervaciju, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(btnPretragaRezPoID, javax.swing.GroupLayout.Alignment.TRAILING))))
                                 .addGap(18, 18, 18)
-                                .addComponent(btnDodajStavkeRez, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnObrisiRez, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(ftxtDatumUzimanja)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnPretraziRezervaciju)))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnObrisiRez, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnIzmeniRez, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                             .addComponent(btnOsveziTabeluRez, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -168,11 +212,27 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
                     .addComponent(btnIzmeniRez))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPretraziRezervaciju)
+                    .addComponent(btnOsveziTabeluRez)
+                    .addComponent(jLabel1))
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(ftxtDatumUzimanja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOsveziTabeluRez))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                    .addComponent(ftxtDatumUzimanja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtPretragaPoKlijentuIliModelu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtPretragaPoZaposlenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPretraziRezervaciju))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPretragaRezPoID)
+                    .addComponent(jLabel3)
+                    .addComponent(txtPretragaRezID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -254,26 +314,48 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
 
     private void btnPretraziRezervacijuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziRezervacijuActionPerformed
         
-        if(ftxtDatumUzimanja.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Enter date!");
+        if(ftxtDatumUzimanja.getText().isEmpty()
+                && txtPretragaPoKlijentuIliModelu.getText().isEmpty() && txtPretragaPoZaposlenom.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Insert some value!");
             return;
         }
-        
-        LocalDate datum = LocalDate.parse(ftxtDatumUzimanja.getText());
-        
-        
-        KlijentskiZahtev kz = new KlijentskiZahtev();
-        kz.setOperacija(Operacije.PRETRAZI_REZERVACIJE);
-        kz.setParametar(datum);
 
-        Komunikacija.getInstance().posaljiZahtev(kz);
+        if (!(ftxtDatumUzimanja.getText().isEmpty())) {
+            LocalDate datum = LocalDate.parse(ftxtDatumUzimanja.getText());
+            
+            KlijentskiZahtev kz = new KlijentskiZahtev();
+            kz.setOperacija(Operacije.PRETRAZI_REZERVACIJE);
+            kz.setParametar(datum);
+
+            Komunikacija.getInstance().posaljiZahtev(kz);
+            
+            ftxtDatumUzimanja.setText("");
+            
+        }else if(!(txtPretragaPoKlijentuIliModelu.getText().isEmpty())){
+            String modelKlijent = txtPretragaPoKlijentuIliModelu.getText();
+
+            KlijentskiZahtev kz = new KlijentskiZahtev();
+            kz.setOperacija(Operacije.PRETRAZI_REZERVACIJE_PO_MODELU_ILI_KLIJENTU);
+            kz.setParametar(modelKlijent);
+
+            Komunikacija.getInstance().posaljiZahtev(kz);
+            
+        }else{
+            int idZap = Integer.parseInt(txtPretragaPoZaposlenom.getText());
+
+            KlijentskiZahtev kz = new KlijentskiZahtev();
+            kz.setOperacija(Operacije.PRETRAZI_REZERVACIJE_PO_ZAP);
+            kz.setParametar(idZap);
+
+            Komunikacija.getInstance().posaljiZahtev(kz);
+        }
+        
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
 
         ArrayList<Rezervacija> pretrazeneRez = (ArrayList<Rezervacija>) so.getOdgovor();
 
         tblRezervacije.removeAll();
 
-         
         TabelaRezervacija tr = (TabelaRezervacija) tblRezervacije.getModel();
         tr.setPretragaRez(pretrazeneRez);
     }//GEN-LAST:event_btnPretraziRezervacijuActionPerformed
@@ -293,6 +375,39 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Element not selected!");
         }
     }//GEN-LAST:event_btnIzmeniRezActionPerformed
+
+    private void btnPretragaRezPoIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretragaRezPoIDActionPerformed
+        if(txtPretragaRezID.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter value!");
+            return;
+        }
+        
+        int id = Integer.parseInt(txtPretragaRezID.getText());
+        
+        
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.PRETRAZI_REZERVACIJUID);
+        kz.setParametar(id);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        
+        
+        ArrayList<Rezervacija> pretraziR = (ArrayList<Rezervacija>) so.getOdgovor();
+
+        tblRezervacije.removeAll();
+
+        
+         
+        TabelaRezervacija trez = (TabelaRezervacija) tblRezervacije.getModel();
+        trez.setPretragaRez(pretraziR);
+    }//GEN-LAST:event_btnPretragaRezPoIDActionPerformed
+
+    private void txtPretragaPoZaposlenomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPretragaPoZaposlenomActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPretragaPoZaposlenomActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,12 +450,20 @@ public class FormaPrikazRezervacija extends javax.swing.JFrame {
     private javax.swing.JButton btnKreirajRezervaciju;
     private javax.swing.JButton btnObrisiRez;
     private javax.swing.JButton btnOsveziTabeluRez;
+    private javax.swing.JButton btnPretragaRezPoID;
     private javax.swing.JButton btnPretraziRezervaciju;
     private javax.swing.JFormattedTextField ftxtDatumUzimanja;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblRezervacije;
+    private javax.swing.JTextField txtPretragaPoKlijentuIliModelu;
+    private javax.swing.JTextField txtPretragaPoZaposlenom;
+    private javax.swing.JTextField txtPretragaRezID;
     // End of variables declaration//GEN-END:variables
 
     private void popuniTabeluRez() {

@@ -49,6 +49,9 @@ public class FormaVozilo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtPretraziVozilo = new javax.swing.JTextField();
         btnPretraziVozilo = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtPtretragaPoID = new javax.swing.JTextField();
+        btnPretraziPoID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,6 +112,15 @@ public class FormaVozilo extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Search vehicle by ID:");
+
+        btnPretraziPoID.setText("Search");
+        btnPretraziPoID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretraziPoIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,14 +143,20 @@ public class FormaVozilo extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnIzmeniVozilo)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnObrisiVozilo)))
+                                .addComponent(btnObrisiVozilo))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPtretragaPoID)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnKreirajNovoVozilo))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnPretraziVozilo)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnPretraziVozilo)
+                                    .addComponent(btnPretraziPoID))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -158,7 +176,12 @@ public class FormaVozilo extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtPretraziVozilo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPretraziVozilo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtPtretragaPoID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPretraziPoID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnNazad)
                 .addContainerGap())
         );
@@ -268,6 +291,35 @@ public class FormaVozilo extends javax.swing.JFrame {
         tv.setPretragaVozila(pretraziV);
     }//GEN-LAST:event_btnPretraziVoziloActionPerformed
 
+    private void btnPretraziPoIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraziPoIDActionPerformed
+        if(txtPtretragaPoID.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter vehicle ID!");
+            return;
+        }
+        
+        int id = Integer.parseInt(txtPtretragaPoID.getText());
+        
+        
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.PRETRAZI_IDVOZILA);
+        kz.setParametar(id);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        
+        
+        ArrayList<Vozilo> pretraziV = (ArrayList<Vozilo>) so.getOdgovor();
+
+        tblVozila.removeAll();
+
+        
+         
+        TabelaVozilo tv = (TabelaVozilo) tblVozila.getModel();
+        tv.setPretragaVozila(pretraziV);
+    }//GEN-LAST:event_btnPretraziPoIDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -309,11 +361,14 @@ public class FormaVozilo extends javax.swing.JFrame {
     private javax.swing.JButton btnNazad;
     private javax.swing.JButton btnObrisiVozilo;
     private javax.swing.JButton btnOsveziTabeluVozila;
+    private javax.swing.JButton btnPretraziPoID;
     private javax.swing.JButton btnPretraziVozilo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblVozila;
     private javax.swing.JTextField txtPretraziVozilo;
+    private javax.swing.JTextField txtPtretragaPoID;
     // End of variables declaration//GEN-END:variables
 
     private void popuniTabeluVozila() {

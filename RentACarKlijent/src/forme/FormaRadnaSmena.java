@@ -56,6 +56,9 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
         btnOsveziTabelu = new javax.swing.JButton();
         btnNazad = new javax.swing.JButton();
         btnIzmeniSmenu = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtRSPretragaID = new javax.swing.JTextField();
+        btnPretragaSmeneID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Work Shifts");
@@ -131,6 +134,15 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Shift ID:");
+
+        btnPretragaSmeneID.setText("Search");
+        btnPretragaSmeneID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPretragaSmeneIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,35 +151,43 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ftxtNovaSmenaPocetak)
+                            .addComponent(ftxtNovaSmenaKraj, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnOsveziTabelu, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(btnKreirajSmenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(btnIzmeniSmenu, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addComponent(jLabel2)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(ftxtPocetakSmene, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel4)
-                                                .addComponent(jLabel5))
-                                            .addGap(18, 18, 18)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(ftxtNovaSmenaPocetak)
-                                                .addComponent(ftxtNovaSmenaKraj, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
-                                    .addGap(44, 44, 44))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(btnIzmeniSmenu, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                            .addGap(18, 18, 18))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLabel6)
+                                            .addGap(30, 30, 30)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(ftxtPocetakSmene, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                        .addComponent(txtRSPretragaID))
+                                    .addGap(44, 44, 44)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnOsveziTabelu, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                                .addComponent(btnPretraziSmene, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnKreirajSmenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnPretraziSmene, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                                 .addComponent(btnNazad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnObrisiSmenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(btnObrisiSmenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnPretragaSmeneID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -186,7 +206,12 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(ftxtPocetakSmene, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPretraziSmene))
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtRSPretragaID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPretragaSmeneID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -199,7 +224,7 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
                     .addComponent(btnKreirajSmenu))
                 .addGap(18, 18, 18)
                 .addComponent(btnOsveziTabelu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(66, 66, 66)
                 .addComponent(btnNazad)
                 .addContainerGap())
         );
@@ -335,6 +360,35 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
         trs.setPretragaRS(pretrazeneRS);
     }//GEN-LAST:event_btnPretraziSmeneActionPerformed
 
+    private void btnPretragaSmeneIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretragaSmeneIDActionPerformed
+        if(txtRSPretragaID.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter shift ID!");
+            return;
+        }
+        
+        int id = Integer.parseInt(txtRSPretragaID.getText());
+        
+        
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.PRETRAZI_IDSMENE);
+        kz.setParametar(id);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        
+        
+        ArrayList<RadnaSmena> pretraziRS = (ArrayList<RadnaSmena>) so.getOdgovor();
+
+        tblRadnaSmena.removeAll();
+
+        
+         
+        TabelaRadnaSmena trs = (TabelaRadnaSmena) tblRadnaSmena.getModel();
+        trs.setPretragaRS(pretraziRS);
+    }//GEN-LAST:event_btnPretragaSmeneIDActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -376,6 +430,7 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
     private javax.swing.JButton btnNazad;
     private javax.swing.JButton btnObrisiSmenu;
     private javax.swing.JButton btnOsveziTabelu;
+    private javax.swing.JButton btnPretragaSmeneID;
     private javax.swing.JButton btnPretraziSmene;
     private javax.swing.JFormattedTextField ftxtNovaSmenaKraj;
     private javax.swing.JFormattedTextField ftxtNovaSmenaPocetak;
@@ -385,8 +440,10 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblRadnaSmena;
+    private javax.swing.JTextField txtRSPretragaID;
     // End of variables declaration//GEN-END:variables
 
     private void popuniTabeluRS() {
