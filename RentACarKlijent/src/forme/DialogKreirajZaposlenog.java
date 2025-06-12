@@ -89,7 +89,7 @@ public class DialogKreirajZaposlenog extends javax.swing.JDialog {
                                 .addComponent(txtNovozaposleniUsername)
                                 .addComponent(txtNovozaposleniLozinka))))
                     .addComponent(btnKreirajZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,7 +112,7 @@ public class DialogKreirajZaposlenog extends javax.swing.JDialog {
                     .addComponent(txtNovozaposleniLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(btnKreirajZaposlenog)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -148,7 +148,7 @@ public class DialogKreirajZaposlenog extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
+            JOptionPane.showMessageDialog(this, "Error creating employee!");
         }
         
         

@@ -5,9 +5,15 @@
  */
 package forme;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 //import niti.OsveziNit;
+import niti.OsveziNit;
 import niti.PokreniServer;
 
 
@@ -21,9 +27,9 @@ public class ServerskaForma extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
 
-//        OsveziNit on = new OsveziNit(this);
-//        on.start();
-        setTitle("Serverska forma");
+        OsveziNit on = new OsveziNit(this);
+        on.start();
+        setTitle("Server form");
     }
 
     /**
@@ -35,21 +41,96 @@ public class ServerskaForma extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnPokreni = new javax.swing.JButton();
+        btnZaustavi = new javax.swing.JButton();
+        lblServer = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnPokreni.setText("Start server");
+        btnPokreni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPokreniActionPerformed(evt);
+            }
+        });
+
+        btnZaustavi.setText("Close server");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(btnPokreni)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(btnZaustavi)
+                .addGap(41, 41, 41))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addComponent(lblServer)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPokreni, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnZaustavi, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lblServer)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPokreniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPokreniActionPerformed
+
+        try {
+       
+            PokreniServer ps = new PokreniServer();
+            ps.start();
+
+       
+            String command = "java -cp klijent/RentACarKlijent.jar;dist/lib/RentACarZajednicki.jar forme.LoginForma";
+            System.out.println("Pokrecem: " + command);
+
+            Process p = Runtime.getRuntime().exec(command);
+
+            // Citanje izlaza
+            new Thread(() -> {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.out.println("klijent izlaz: " + line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+            // Citanje gresaka
+            new Thread(() -> {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        System.err.println("klijent greske: " + line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        btnPokreni.setEnabled(false);
+        lblServer.setText("Server turned on!");
+
+    }//GEN-LAST:event_btnPokreniActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,21 +164,16 @@ public class ServerskaForma extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ServerskaForma().setVisible(true);
-                PokreniServer ps = new PokreniServer();
-                ps.start();
+                
             }
         });
     }
 
-    public void izvrsiUpit() {
-
-//        ArrayList<Object> listaBaza;
-////        ModelTabeleServer mt = (ModelTabeleServer) tblIzvestaj.getModel();
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-//        String dodatniUpit = "";
-
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPokreni;
+    private javax.swing.JButton btnZaustavi;
+    private javax.swing.JLabel lblServer;
     // End of variables declaration//GEN-END:variables
 }
