@@ -97,7 +97,7 @@ public class DialogKreirajVozilo extends javax.swing.JDialog {
                             .addComponent(txtNovoVoziloCM)
                             .addComponent(txtNovoVoziloBoja)
                             .addComponent(ftxtNovoVoziloCena, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,7 +128,7 @@ public class DialogKreirajVozilo extends javax.swing.JDialog {
                     .addComponent(txtNovoVoziloBoja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnKreirajVozilo)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,7 +168,7 @@ public class DialogKreirajVozilo extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
+            JOptionPane.showMessageDialog(this, "Error creating vehicle!");
         }
     }//GEN-LAST:event_btnKreirajVoziloActionPerformed
 

@@ -113,7 +113,7 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
                     .addComponent(btnObrisiStavkuRez)
                     .addComponent(jLabel1)
                     .addComponent(lblRezID))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -156,7 +156,7 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
                 apdejtujIznosRez(rezID);
 
             } else {
-                JOptionPane.showMessageDialog(this, "Error");
+                JOptionPane.showMessageDialog(this, "Error deleting item!");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Element not selected!");

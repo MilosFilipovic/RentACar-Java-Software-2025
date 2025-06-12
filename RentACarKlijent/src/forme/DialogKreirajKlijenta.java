@@ -92,7 +92,7 @@ public class DialogKreirajKlijenta extends javax.swing.JDialog {
                             .addComponent(txtNoviKlijentPrezime, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNoviKlijentBroj, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmbAdrese, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +115,7 @@ public class DialogKreirajKlijenta extends javax.swing.JDialog {
                     .addComponent(cmbAdrese, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnKreirajNovogKlijenta)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,7 +154,7 @@ public class DialogKreirajKlijenta extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
+            JOptionPane.showMessageDialog(this, "Error creating client!");
         }
     }//GEN-LAST:event_btnKreirajNovogKlijentaActionPerformed
 

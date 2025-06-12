@@ -82,7 +82,7 @@ public class DialogIzmeniSmenu extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ftxtIzmeniPocetak)
                             .addComponent(ftxtIzmeniKraj, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,7 +101,7 @@ public class DialogIzmeniSmenu extends javax.swing.JDialog {
                     .addComponent(ftxtIzmeniKraj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addComponent(btnSacuvajIzmeneSmene)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -138,7 +138,7 @@ public class DialogIzmeniSmenu extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
+            JOptionPane.showMessageDialog(this, "Error editing shift!");
         }
     }//GEN-LAST:event_btnSacuvajIzmeneSmeneActionPerformed
 

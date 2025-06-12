@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package baza;
 
 import java.sql.PreparedStatement;
@@ -113,50 +109,6 @@ public class DBBroker {
         return ++maxID;
     }
     
-//    public boolean dodajZaposlenog(Zaposleni z){
-//        String naredba = "INSERT INTO zaposleni (ime, prezime, lozinka, korisnickoIme) VALUES (?,?,?,?)";
-//        try {
-//            
-//            PreparedStatement ps = Konekcija.getInstance().getConnection()
-//                    // dodajemo u prepareStatement Statement.RETURN_GENERATED_KEYS
-//                    // da bismo imali generisan kljuc u psu
-//                    .prepareStatement(naredba, Statement.RETURN_GENERATED_KEYS);
-//
-//            ps.setString(1, z.getIme());
-//            ps.setString(2, z.getPrezime());
-//            ps.setString(3, z.getLozinka());
-//            ps.setString(4, z.getKorisnickoIme());
-//            
-//            
-//            ps.executeUpdate();
-//
-//            
-//            // nakon executeUpdate se kljuc generise, pa uzimamo taj automatski generisan ID
-//            ResultSet tableKeys = ps.getGeneratedKeys(); // vraca tabelu sa generisanim kljucem
-//            tableKeys.next();  // ulazimo u red gde je novi ID
-//            int autoZaposleniID = tableKeys.getInt(1); // uzimamo taj ID
-//
-//
-//            z.setIdZaposleni(autoZaposleniID);// setujemo ga za nasu prognozu
-//            Konekcija.getInstance().getConnection().commit();
-//            
-//            return true;
-//
-//        } catch (SQLException ex) {
-//           if (Konekcija.getInstance().getConnection() != null) {
-//            try {
-//                Konekcija.getInstance().getConnection().rollback();  //Ovaj rollback će sada imati efekat
-//                System.out.println("Rollback izvršen!");
-//            } catch (SQLException rollbackEx) {
-//                rollbackEx.printStackTrace();
-//            }
-//        }
-//        Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-//        return false;
-//
-//            
-//    }
-//    }
 
     public boolean obrisiZaposlenog(int idz) {
         String naredba = "DELETE FROM zaposleni WHERE idZaposleni = ?";
@@ -172,7 +124,7 @@ public class DBBroker {
         } catch (SQLException ex) {
            if (Konekcija.getInstance().getConnection() != null) {
             try {
-                Konekcija.getInstance().getConnection().rollback();  //Ovaj rollback će sada imati efekat
+                Konekcija.getInstance().getConnection().rollback();  
                 System.out.println("Rollback izvršen!");
             } catch (SQLException rollbackEx) {
                 rollbackEx.printStackTrace();
@@ -810,24 +762,6 @@ public class DBBroker {
 
         return lista;
         
-        
-//        ArrayList<Klijent> lista = new ArrayList<>();
-//        String upit = "SELECT * FROM klijent WHERE ime LIKE ?";
-//        try {
-//            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
-//            ps.setString(1, "%" + imek + "%"); // Postavljamo parametar u upit
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//
-//                Klijent k = new Klijent(rs.getInt("idKlijent"), rs.getString("ime"), rs.getString("prezime"), rs.getString("telefon"), rs.getInt("idMesta"));
-//                lista.add(k);
-//
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return lista;
     }
     
     public ArrayList<Klijent> vratiKlijentaPoID(int id) {
@@ -895,7 +829,7 @@ public class DBBroker {
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(naredba);
 
-            v.setIdVozilo(novoVozilo);// OBAVEZNO SETUJEMO NA NOVI ID !
+            v.setIdVozilo(novoVozilo);
            
             ps.setInt(1, v.getIdVozilo());
             ps.setString(2, v.getModel());
@@ -905,7 +839,7 @@ public class DBBroker {
             ps.setString(6, v.getKubikaza());
             ps.setString(7, v.getBoja());
 
-            ps.executeUpdate(); // INSERT INTO PROGNOZA VALUES (1, '2020-10-10','Super', 1)
+            ps.executeUpdate(); 
 
             Konekcija.getInstance().getConnection().commit();
 
@@ -948,7 +882,7 @@ public class DBBroker {
         } catch (SQLException ex) {
            if (Konekcija.getInstance().getConnection() != null) {
             try {
-                Konekcija.getInstance().getConnection().rollback();  //Ovaj rollback će sada imati efekat
+                Konekcija.getInstance().getConnection().rollback();  
                 System.out.println("Rollback izvršen!");
             } catch (SQLException rollbackEx) {
                 rollbackEx.printStackTrace();
@@ -1014,7 +948,7 @@ public class DBBroker {
         String upit = "SELECT * FROM vozilo WHERE idVozilo = ?";
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
-            ps.setInt(1, idvozila); // Postavljamo parametar u upit
+            ps.setInt(1, idvozila); 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -1095,7 +1029,7 @@ public class DBBroker {
 
             while (rs.next()) {
                
-                // Dohvatanje vozila prema ID-ju
+                
                 Vozilo vozilo = vratiVozilo(rs.getInt("idVozilo"));
 
                 StavkaRezervacije stavka = new StavkaRezervacije( rs.getInt("idRezervacije"),rs.getInt("rb"), rs.getString("nazivStavke"), rs.getString("napomena"),
@@ -1144,7 +1078,7 @@ public class DBBroker {
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(naredba);
 
-            sr.setRb(novaStavka);// OBAVEZNO SETUJEMO NA NOVI ID !
+            sr.setRb(novaStavka);
            
             ps.setInt(1, sr.getRb());
             ps.setString(2, sr.getNazivStavke());
@@ -1155,7 +1089,7 @@ public class DBBroker {
             ps.setInt(7, sr.getIdVozilo());
             ps.setInt(8, sr.getIdrezervacije());
 
-            ps.executeUpdate(); // INSERT INTO PROGNOZA VALUES (1, '2020-10-10','Super', 1)
+            ps.executeUpdate(); 
 
             
             Konekcija.getInstance().getConnection().commit();
@@ -1194,7 +1128,7 @@ public class DBBroker {
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(naredba);
 
-            r.setIdRezervacija(novaRez);// OBAVEZNO SETUJEMO NA NOVI ID !
+            r.setIdRezervacija(novaRez);
             
             ps.setInt(1, r.getIdRezervacija());
             ps.setDate(2, java.sql.Date.valueOf(r.getDatumPreuzimanja()));
@@ -1204,7 +1138,7 @@ public class DBBroker {
             ps.setInt(6, r.getIdKlijent());
             
 
-            ps.executeUpdate(); // INSERT INTO PROGNOZA VALUES (1, '2020-10-10','Super', 1)
+            ps.executeUpdate(); 
 
             Konekcija.getInstance().getConnection().commit();
 
@@ -1267,28 +1201,7 @@ public class DBBroker {
         return false;
     }
 
-//    private Rezervacija vratiRez(int idrezervacije) {
-//        
-//        String upit = "SELECT * FROM rezervacija WHERE idRezervacije = ?";
-//
-//        try {
-//            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
-//            ps.setInt(1, idrezervacije);
-//            ResultSet rs = ps.executeQuery();
-//
-//            if (rs.next()) {
-//                
-//                Rezervacija r = new Rezervacija(0, null, null, rs.getDouble("iznosRezervacije"),
-//                        0, null, 0, null);
-//                
-//                return r;
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return null;
-//    }
+
 
     public boolean obrisiRezervaciju(int idr) {
         String obrisiRez = "DELETE FROM rezervacija WHERE idRezervacije = ?";
@@ -1378,7 +1291,7 @@ public class DBBroker {
         } catch (SQLException ex) {
            if (Konekcija.getInstance().getConnection() != null) {
             try {
-                Konekcija.getInstance().getConnection().rollback();  //Ovaj rollback će sada imati efekat
+                Konekcija.getInstance().getConnection().rollback();  
                 System.out.println("Rollback izvršen!");
             } catch (SQLException rollbackEx) {
                 rollbackEx.printStackTrace();
@@ -1394,7 +1307,7 @@ public class DBBroker {
         String upit = "SELECT * FROM rezervacija WHERE idRezervacije = ?";
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
-            ps.setInt(1, idrez); // Postavljamo parametar u upit
+            ps.setInt(1, idrez); 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -1420,44 +1333,14 @@ public class DBBroker {
         return lista;
     }
 
-//    public ArrayList<Rezervacija> vratiRezModelKlijent(String modelKlijent) {
-//        ArrayList<Rezervacija> lista = new ArrayList<>();
-//        String upit = "SELECT * FROM rezervacija WHERE datumPreuzimanja = ?";
-//        try {
-//            PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
-//            ps.setString(1, modelKlijent); // Postavljamo parametar u upit
-//            ps.setString(2, modelKlijent);
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//
-//                int id = rs.getInt("idRezervacije");
-//               
-//                LocalDate datumUzimanja = rs.getObject("datumPreuzimanja", LocalDate.class);
-//                LocalDate datumVracanja = rs.getObject("datumVracanja", LocalDate.class);
-//                
-//                Klijent klijent = vratiKlijenta(rs.getInt("idKlijent"));
-//                
-//                ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
-//
-//                Rezervacija rez = new Rezervacija(id, datumUzimanja, datumVracanja, rs.getDouble("iznosRezervacije"),
-//                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
-//                
-//                lista.add(rez);
-//
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return lista;
-//    }
+
 
     public ArrayList<Rezervacija> vratiRezPoZaposlenom(int idzap) {
         ArrayList<Rezervacija> lista = new ArrayList<>();
         String upit = "SELECT * FROM rezervacija WHERE idZaposleni = ?";
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
-            ps.setInt(1, idzap); // Postavljamo parametar u upit
+            ps.setInt(1, idzap); 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
 
@@ -1500,8 +1383,8 @@ public class DBBroker {
         try {
             PreparedStatement ps = Konekcija.getInstance().getConnection().prepareStatement(upit);
             String filter = "%" + modelKlijent + "%";
-            ps.setString(1, filter); // Omogućava pretragu po imenu klijenta
-            ps.setString(2, filter); // Omogućava pretragu po modelu automobila
+            ps.setString(1, filter); 
+            ps.setString(2, filter); 
 
             ResultSet rs = ps.executeQuery();
 
@@ -1531,17 +1414,5 @@ public class DBBroker {
         return lista;
     }
 
-    
 
-
-    
-
-    
-
-    
-
-    
-
-
-    
 }

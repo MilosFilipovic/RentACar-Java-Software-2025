@@ -96,7 +96,7 @@ public class DialogIzmeniZaposlenog extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtIzmeniPrezimeZaposlenog, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                         .addComponent(txtIzmeniUsernameZaposlenog)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +118,7 @@ public class DialogIzmeniZaposlenog extends javax.swing.JDialog {
                     .addComponent(btnSacuvajIzmeneZaposlenog)
                     .addComponent(jLabel5)
                     .addComponent(lbID))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,7 +156,7 @@ public class DialogIzmeniZaposlenog extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
+            JOptionPane.showMessageDialog(this, "Error editing client!");
         }
         
     }//GEN-LAST:event_btnSacuvajIzmeneZaposlenogActionPerformed

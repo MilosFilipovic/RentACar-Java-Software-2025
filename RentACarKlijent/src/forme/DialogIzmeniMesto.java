@@ -80,7 +80,7 @@ public class DialogIzmeniMesto extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnSacuvajIzmenjenoMesto))
                             .addComponent(txtIzmenjenaAdresa))))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,7 +98,7 @@ public class DialogIzmeniMesto extends javax.swing.JDialog {
                     .addComponent(btnSacuvajIzmenjenoMesto)
                     .addComponent(jLabel3)
                     .addComponent(lblIDMesta))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -135,7 +135,7 @@ public class DialogIzmeniMesto extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
+            JOptionPane.showMessageDialog(this, "Error editing city!");
         }
     }//GEN-LAST:event_btnSacuvajIzmenjenoMestoActionPerformed
 

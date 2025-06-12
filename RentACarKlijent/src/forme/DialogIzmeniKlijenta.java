@@ -91,7 +91,7 @@ public class DialogIzmeniKlijenta extends javax.swing.JDialog {
                                     .addComponent(txtIzmenjenogKlijentaGrad))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblIDKlijenta)))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +118,7 @@ public class DialogIzmeniKlijenta extends javax.swing.JDialog {
                     .addComponent(txtIzmenjenogKlijentaGrad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSacuvajIzmenjenogKlijenta)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,7 +157,7 @@ public class DialogIzmeniKlijenta extends javax.swing.JDialog {
             this.dispose();
             
         } else {
-            JOptionPane.showMessageDialog(this, "Error");
+            JOptionPane.showMessageDialog(this, "Error editing employee!");
         }
     }//GEN-LAST:event_btnSacuvajIzmenjenogKlijentaActionPerformed
 

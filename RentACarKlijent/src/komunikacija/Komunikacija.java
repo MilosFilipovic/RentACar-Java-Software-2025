@@ -31,6 +31,7 @@ public class Komunikacija {
     private Komunikacija() {
         try {
             s = new Socket("localhost", 9000);
+            System.out.println("Klijent povezan na server!");
         } catch (IOException ex) {
             Logger.getLogger(Komunikacija.class.getName()).log(Level.SEVERE, null, ex);
         }
