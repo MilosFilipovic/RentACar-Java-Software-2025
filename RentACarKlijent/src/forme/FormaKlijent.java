@@ -7,6 +7,7 @@ package forme;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import klase.Klijent;
+import klase.Mesto;
 import komunikacija.Komunikacija;
 import konstante.Operacije;
 import modeli.TabelaKlijent;
@@ -119,7 +120,7 @@ public class FormaKlijent extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Search by client name or place name:");
+        jLabel4.setText("Search by client name:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,17 +198,18 @@ public class FormaKlijent extends javax.swing.JFrame {
         if (row != -1) {
             TabelaKlijent tk = (TabelaKlijent) tblKlijent.getModel();
             Object id = tblKlijent.getValueAt(row, 0);
-            tk.obrisiKlijenta(row);
-
+            
+            Klijent k = new Klijent((int) id, null, null, null, -1);
             
 
             KlijentskiZahtev kz = new KlijentskiZahtev();
             kz.setOperacija(Operacije.OBRISI_KLIJENTA);
-            kz.setParametar(id);
+            kz.setParametar(k);
 
             Komunikacija.getInstance().posaljiZahtev(kz);
             ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
-
+            
+            tk.obrisiKlijenta(row);
             tk.fireTableDataChanged();
 
             boolean obrisan = (boolean) so.getOdgovor();
@@ -266,11 +268,13 @@ public class FormaKlijent extends javax.swing.JFrame {
             return;
         }
 
-        String imeMesto = txtPretraziKlijenta.getText();
+        String ime = txtPretraziKlijenta.getText();
 
+        Klijent k = new Klijent(-1, ime, null, null, -1);
+        
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_KLIJENTA);
-        kz.setParametar(imeMesto);
+        kz.setParametar(k);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
 
@@ -293,11 +297,11 @@ public class FormaKlijent extends javax.swing.JFrame {
         
         int id = Integer.parseInt(txtPretraziID.getText());
         
-        
+        Klijent k = new Klijent(id, null, null, null, -1);
         
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_IDKLIJENTA);
-        kz.setParametar(id);
+        kz.setParametar(k);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();

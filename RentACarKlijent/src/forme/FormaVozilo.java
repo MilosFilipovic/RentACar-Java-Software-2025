@@ -209,14 +209,14 @@ public class FormaVozilo extends javax.swing.JFrame {
 
         if (row != -1) {
             TabelaVozilo mt = (TabelaVozilo) tblVozila.getModel();
-            Object id = tblVozila.getValueAt(row, 0);
-            mt.obrisiVozilo(row);
-
+            int id = (int)tblVozila.getValueAt(row, 0);
+            
+            Vozilo v = new Vozilo(id, null, 0, null, null, null, null);
             
 
             KlijentskiZahtev kz = new KlijentskiZahtev();
             kz.setOperacija(Operacije.OBRISI_VOZILO);
-            kz.setParametar(id);
+            kz.setParametar(v);
 
             Komunikacija.getInstance().posaljiZahtev(kz);
             ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -227,7 +227,7 @@ public class FormaVozilo extends javax.swing.JFrame {
 
             if (obrisan) {
                 JOptionPane.showMessageDialog(this, "Vehicle deleted!");
-
+                mt.obrisiVozilo(row);
                 
 
             } else {
@@ -276,9 +276,11 @@ public class FormaVozilo extends javax.swing.JFrame {
         
         String model = txtPretraziVozilo.getText();
         
+        Vozilo v = new Vozilo(-1, model, 0, null, null, null, null);
+        
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_VOZILA);
-        kz.setParametar(model);
+        kz.setParametar(v);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -300,11 +302,11 @@ public class FormaVozilo extends javax.swing.JFrame {
         
         int id = Integer.parseInt(txtPtretragaPoID.getText());
         
-        
+        Vozilo v = new Vozilo(id, null, 0, null, null, null, null);
         
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_IDVOZILA);
-        kz.setParametar(id);
+        kz.setParametar(v);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();

@@ -4,9 +4,13 @@
  */
 package forme;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import klase.Rezervacija;
 import klase.StavkaRezervacije;
+import klase.Vozilo;
+import klase.Zaposleni;
 import komunikacija.Komunikacija;
 import konstante.Operacije;
 import modeli.TabelaStavkiRezervacije;
@@ -25,13 +29,15 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
     
     private int rezID;
     
-    public DialogIzmeniRezervaciju(java.awt.Frame parent, boolean modal, int id) {
+    public DialogIzmeniRezervaciju(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         
         tblIzmeniRezervaciju.setModel(new TabelaStavkiRezervacije());
-        lblRezID.setText(String.valueOf(id));
+        
+        popuniCBVozila();
+        
         popuniStavkeRez();
     }
 
@@ -47,9 +53,20 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblIzmeniRezervaciju = new javax.swing.JTable();
         btnObrisiStavkuRez = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         lblRezID = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        btnKreirajStavku = new javax.swing.JButton();
+        cmVozila = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtAreaNapomena = new javax.swing.JTextArea();
+        txtBrojDana = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        lblIznosStavke = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblCenaVozila = new javax.swing.JLabel();
+        txtRezID = new javax.swing.JTextField();
+        btnIzmeniStavku = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -73,12 +90,39 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("ReservationID:");
-
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnKreirajStavku.setText("Create item");
+        btnKreirajStavku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKreirajStavkuActionPerformed(evt);
+            }
+        });
+
+        txtAreaNapomena.setColumns(20);
+        txtAreaNapomena.setRows(5);
+        jScrollPane2.setViewportView(txtAreaNapomena);
+
+        jLabel2.setText("Days:");
+
+        jLabel4.setText("Reservation:");
+
+        btnIzmeniStavku.setText("Change");
+        btnIzmeniStavku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIzmeniStavkuActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Refresh");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -90,18 +134,45 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblRezID)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnObrisiStavkuRez, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
-                .addContainerGap())
+                        .addGap(76, 76, 76)
+                        .addComponent(lblCenaVozila)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmVozila, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblRezID)
+                                .addGap(24, 24, 24)
+                                .addComponent(btnObrisiStavkuRez, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblIznosStavke)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnIzmeniStavku)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(78, 78, 78)
+                                        .addComponent(jButton1))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton2))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtRezID))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtBrojDana))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnKreirajStavku)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,9 +182,29 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnObrisiStavkuRez)
-                    .addComponent(jLabel1)
-                    .addComponent(lblRezID))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblRezID)
+                    .addComponent(cmVozila, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblIznosStavke)
+                    .addComponent(btnIzmeniStavku)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblCenaVozila)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtBrojDana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtRezID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnKreirajStavku, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(9, 9, 9)))
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -134,14 +225,14 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
 
         if (row != -1) {
             TabelaStavkiRezervacije tsr = (TabelaStavkiRezervacije) tblIzmeniRezervaciju.getModel();
-            Object rb = tblIzmeniRezervaciju.getValueAt(row, 0);
-            tsr.obrisiStavku(row);
-
+            int rb = (int) tblIzmeniRezervaciju.getValueAt(row, 0);
+            
+            StavkaRezervacije sr = new StavkaRezervacije(-1, rb, null, null, 0, -1, -1, -1);
             
 
             KlijentskiZahtev kz = new KlijentskiZahtev();
             kz.setOperacija(Operacije.OBRISI_STAVKU);
-            kz.setParametar(rb);
+            kz.setParametar(sr);
 
             Komunikacija.getInstance().posaljiZahtev(kz);
             ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -152,8 +243,8 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
 
             if (obrisan) {
                 JOptionPane.showMessageDialog(this, "Item deleted!");
-
-                apdejtujIznosRez(rezID);
+                tsr.obrisiStavku(row);
+                
 
             } else {
                 JOptionPane.showMessageDialog(this, "Error deleting item!");
@@ -162,6 +253,79 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Element not selected!");
         }
     }//GEN-LAST:event_btnObrisiStavkuRezActionPerformed
+
+    private void btnKreirajStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajStavkuActionPerformed
+        if (txtAreaNapomena.getText().isEmpty() || cmVozila.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(this, "All fields must be filled!");
+            return;
+        }
+
+        Vozilo v = (Vozilo) cmVozila.getSelectedItem();
+        int idV=v.getIdVozilo();
+      
+        String napomena = txtAreaNapomena.getText();
+        
+        int dani = Integer.valueOf(txtBrojDana.getText());
+        int rezID = Integer.valueOf(txtRezID.getText());
+        
+        double iznos = dani * v.getCenaDana();
+        
+        
+        StavkaRezervacije sr = new StavkaRezervacije(rezID, -1, v.getModel(), napomena, v.getCenaDana(), dani, iznos, idV);
+
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.KREIRAJ_STAVKU_REZ);
+        kz.setParametar(sr);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        
+        
+        boolean uspesno = (boolean) so.getOdgovor();
+
+        if (uspesno) {
+            JOptionPane.showMessageDialog(this, "New item created!");
+            Rezervacija r = new Rezervacija(rezID, null, null, 0, -1, -1, null);
+            dodajIznos(r, iznos);
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Error creating item!");
+        }
+    }//GEN-LAST:event_btnKreirajStavkuActionPerformed
+
+    private void btnIzmeniStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniStavkuActionPerformed
+        int row = tblIzmeniRezervaciju.getSelectedRow();
+        if (row != -1) {
+            
+            int id =  (int) tblIzmeniRezervaciju.getValueAt(row, 0);
+            
+//            LocalDate uzimanje = LocalDate.parse( (String) tblRezervacije.getValueAt(row, 1));              
+//            LocalDate vracanje = LocalDate.parse( (String) tblRezervacije.getValueAt(row, 2));           
+            
+            int idrez = (int) tblIzmeniRezervaciju.getValueAt(row, 6);
+            Vozilo v = (Vozilo) cmVozila.getSelectedItem();
+            String model = (String) tblIzmeniRezervaciju.getValueAt(row, 1);
+            String napomena = (String) tblIzmeniRezervaciju.getValueAt(row, 2);
+            Double cena = (Double) tblIzmeniRezervaciju.getValueAt(row, 3);
+            int dani = (int) tblIzmeniRezervaciju.getValueAt(row, 4);
+            Double iznos = (Double) tblIzmeniRezervaciju.getValueAt(row, 5);
+            
+            
+            StavkaRezervacije sr = new StavkaRezervacije(idrez, id, model, napomena, cena, dani, iznos, -1);
+            
+            FormaIzmeniStavku fis = new FormaIzmeniStavku(sr);
+            
+            fis.setVisible(true);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Element not selected!");
+        }
+    }//GEN-LAST:event_btnIzmeniStavkuActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        popuniStavkeRez();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,20 +370,30 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnIzmeniStavku;
+    private javax.swing.JButton btnKreirajStavku;
     private javax.swing.JButton btnObrisiStavkuRez;
+    private javax.swing.JComboBox<Vozilo> cmVozila;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblCenaVozila;
+    private javax.swing.JLabel lblIznosStavke;
     private javax.swing.JLabel lblRezID;
     private javax.swing.JTable tblIzmeniRezervaciju;
+    private javax.swing.JTextArea txtAreaNapomena;
+    private javax.swing.JTextField txtBrojDana;
+    private javax.swing.JTextField txtRezID;
     // End of variables declaration//GEN-END:variables
 
     private void popuniStavkeRez() {
-        rezID = Integer.parseInt(lblRezID.getText());
-        
+    
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.VRATI_STAVKE);
-        kz.setParametar(rezID);
+        
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -243,6 +417,45 @@ public class DialogIzmeniRezervaciju extends javax.swing.JDialog {
         
         boolean izmenjenIznos=(boolean) so.getOdgovor();
         
+        
+        
+    }
+
+    private void popuniCBVozila() {
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.VRATI_VOZILA);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        ArrayList<Vozilo> vozila = (ArrayList<Vozilo>) so.getOdgovor();
+
+        cmVozila.removeAllItems();
+
+        for (Vozilo v : vozila) {
+            cmVozila.addItem(v);
+        }
+    }
+
+    private void dodajIznos(Rezervacija r, Double iznos) {
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.PRETRAZI_REZERVACIJUID);
+        kz.setParametar(r);
+        
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+        
+         ArrayList<Rezervacija> rezz = (ArrayList<Rezervacija>) so.getOdgovor();
+        
+        Rezervacija reza = rezz.getFirst();
+        
+        reza.setIznosRezervacije(reza.getIznosRezervacije()+iznos);
+        
+        kz.setOperacija(Operacije.IZMENI_REZERVACIJU);
+        kz.setParametar(reza);
+        
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        so = Komunikacija.getInstance().primiOdgovor();
         
         
     }

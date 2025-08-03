@@ -23,13 +23,13 @@ public class ServerskaForma extends javax.swing.JFrame {
      * Creates new form ServerskaForma
      */
     public ServerskaForma() {
-        initComponents();
-        setLocationRelativeTo(null);
-        
-
-        OsveziNit on = new OsveziNit(this);
-        on.start();
-        setTitle("Server form");
+//        initComponents();
+//        setLocationRelativeTo(null);
+//        
+//
+//        OsveziNit on = new OsveziNit(this);
+//        on.start();
+//        setTitle("Server form");
     }
 
     /**
@@ -42,7 +42,6 @@ public class ServerskaForma extends javax.swing.JFrame {
     private void initComponents() {
 
         btnPokreni = new javax.swing.JButton();
-        btnZaustavi = new javax.swing.JButton();
         lblServer = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -54,31 +53,26 @@ public class ServerskaForma extends javax.swing.JFrame {
             }
         });
 
-        btnZaustavi.setText("Close server");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(btnPokreni)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(btnZaustavi)
-                .addGap(41, 41, 41))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(106, 106, 106)
-                .addComponent(lblServer)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(lblServer))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(btnPokreni, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPokreni, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnZaustavi, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addComponent(btnPokreni, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblServer)
                 .addContainerGap(56, Short.MAX_VALUE))
         );
@@ -88,47 +82,58 @@ public class ServerskaForma extends javax.swing.JFrame {
 
     private void btnPokreniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPokreniActionPerformed
 
-        try {
-       
-            PokreniServer ps = new PokreniServer();
-            ps.start();
-
-       
-            String command = "java -cp klijent/RentACarKlijent.jar;dist/lib/RentACarZajednicki.jar forme.LoginForma";
-            System.out.println("Pokrecem: " + command);
-
-            Process p = Runtime.getRuntime().exec(command);
-
-            // Citanje izlaza
-            new Thread(() -> {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        System.out.println("klijent izlaz: " + line);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
-            // Citanje gresaka
-            new Thread(() -> {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()))) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        System.err.println("klijent greske: " + line);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        btnPokreni.setEnabled(false);
-        lblServer.setText("Server turned on!");
+//        try {
+//       
+//            PokreniServer ps = new PokreniServer();
+//            ps.start();
+//
+////            String command = "java -cp klijent/RentACarKlijent.jar;dist/lib/RentACarZajednicki.jar forme.LoginForma";
+////            String command = "java -cp \""
+////                    + new File("klijent/RentACarKlijent.jar").getAbsolutePath() + ";"
+////                    + new File("dist/lib/RentACarZajednicki.jar").getAbsolutePath()
+////                    + "\" forme.LoginForma";
+//            
+//            String klijentJar = "klijent/RentACarKlijent.jar";
+//            String zajednickiJar = "dist/lib/RentACarZajednicki.jar";
+//
+//            String command = "java -cp \"" + klijentJar + ";" + zajednickiJar + "\" forme.LoginForma";
+//
+//            
+//
+//            System.out.println("Pokrecem: " + command);
+//
+//            Process p = Runtime.getRuntime().exec(command);
+//
+//            // Citanje izlaza
+//            new Thread(() -> {
+//                try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        System.out.println("klijent izlaz: " + line);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }).start();
+//
+//            // Citanje gresaka
+//            new Thread(() -> {
+//                try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()))) {
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        System.err.println("klijent greske: " + line);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }).start();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        btnPokreni.setEnabled(false);
+//        lblServer.setText("Server turned on!");
 
     }//GEN-LAST:event_btnPokreniActionPerformed
 
@@ -164,7 +169,8 @@ public class ServerskaForma extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ServerskaForma().setVisible(true);
-                
+                PokreniServer ps = new PokreniServer();
+                ps.start();
             }
         });
     }
@@ -173,7 +179,6 @@ public class ServerskaForma extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPokreni;
-    private javax.swing.JButton btnZaustavi;
     private javax.swing.JLabel lblServer;
     // End of variables declaration//GEN-END:variables
 }

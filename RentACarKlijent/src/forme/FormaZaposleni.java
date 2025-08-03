@@ -49,6 +49,9 @@ public class FormaZaposleni extends javax.swing.JFrame {
         btnDodajNovogZaposlenog = new javax.swing.JButton();
         btnOsveziTabeluZaposlenih = new javax.swing.JButton();
         btnNazad = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtZapID = new javax.swing.JTextField();
+        btnZapID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Employees");
@@ -116,20 +119,39 @@ public class FormaZaposleni extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Insert ID:");
+
+        btnZapID.setText("Search");
+        btnZapID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnZapIDActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnNazad, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtUnesiImeZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtUnesiImeZaposlenog, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                            .addComponent(txtZapID))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addComponent(btnPretragaZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnPretragaZaposlenog, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                            .addComponent(btnZapID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnObrisiZaposlenog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -137,10 +159,6 @@ public class FormaZaposleni extends javax.swing.JFrame {
                     .addComponent(btnIzmeniZaposlenog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnOsveziTabeluZaposlenih, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNazad, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +180,12 @@ public class FormaZaposleni extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addComponent(txtUnesiImeZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnPretragaZaposlenog))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtZapID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnZapID))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(btnNazad)
                 .addContainerGap())
         );
@@ -184,14 +207,14 @@ public class FormaZaposleni extends javax.swing.JFrame {
 
         if (row != -1) {
             TabelaZaposleni mt = (TabelaZaposleni) tblZaposleni.getModel();
-            Object id = tblZaposleni.getValueAt(row, 0);
-            mt.obrisiZaposlenog(row);
-
+            int id = (int) tblZaposleni.getValueAt(row, 0);
+            
+            Zaposleni z = new Zaposleni(id, null, null, null, null);
             
 
             KlijentskiZahtev kz = new KlijentskiZahtev();
             kz.setOperacija(Operacije.OBRISI_ZAPOSLENOG);
-            kz.setParametar(id);
+            kz.setParametar(z);
 
             Komunikacija.getInstance().posaljiZahtev(kz);
             ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -202,7 +225,7 @@ public class FormaZaposleni extends javax.swing.JFrame {
 
             if (obrisan) {
                 JOptionPane.showMessageDialog(this, "Employee deleted!");
-
+                mt.obrisiZaposlenog(row);
                 
 
             } else {
@@ -256,9 +279,11 @@ public class FormaZaposleni extends javax.swing.JFrame {
         
         String ime = txtUnesiImeZaposlenog.getText();
         
+        Zaposleni z = new Zaposleni(-1, ime, null, null, null);
+        
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_ZAPOSLENE);
-        kz.setParametar(ime);
+        kz.setParametar(z);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -276,6 +301,35 @@ public class FormaZaposleni extends javax.swing.JFrame {
     private void txtUnesiImeZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnesiImeZaposlenogActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUnesiImeZaposlenogActionPerformed
+
+    private void btnZapIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZapIDActionPerformed
+        if(txtZapID.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter employee ID!");
+            return;
+        }
+        
+        int id = Integer.parseInt(txtZapID.getText());
+        
+        Zaposleni z = new Zaposleni(id, null, null, null, null);
+        
+        KlijentskiZahtev kz = new KlijentskiZahtev();
+        kz.setOperacija(Operacije.PRETRAZI_IDZAPOSLENOG);
+        kz.setParametar(z);
+
+        Komunikacija.getInstance().posaljiZahtev(kz);
+        ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+        
+        
+        ArrayList<Zaposleni> pretraziZ = (ArrayList<Zaposleni>) so.getOdgovor();
+
+        tblZaposleni.removeAll();
+
+        
+         
+        TabelaZaposleni tz = (TabelaZaposleni) tblZaposleni.getModel();
+        tz.setPretragaZaposleni(pretraziZ);
+    }//GEN-LAST:event_btnZapIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,10 +373,13 @@ public class FormaZaposleni extends javax.swing.JFrame {
     private javax.swing.JButton btnObrisiZaposlenog;
     private javax.swing.JButton btnOsveziTabeluZaposlenih;
     private javax.swing.JButton btnPretragaZaposlenog;
+    private javax.swing.JButton btnZapID;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblZaposleni;
     private javax.swing.JTextField txtUnesiImeZaposlenog;
+    private javax.swing.JTextField txtZapID;
     // End of variables declaration//GEN-END:variables
 
     private void popuniTabeluZaposleni() {

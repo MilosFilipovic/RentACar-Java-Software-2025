@@ -15,7 +15,7 @@ import klase.StavkaRezervacije;
 public class TabelaStavkiRezervacije extends AbstractTableModel{
 
     ArrayList<StavkaRezervacije> listaStavki;
-    String[] kolone = {"RB", "Item", "Note", "Vehicle Price", "Days", "Item price"};
+    String[] kolone = {"RB", "Item", "Note", "Vehicle Price", "Days", "Item price", "Reservation ID"};
     
     public TabelaStavkiRezervacije(){
         listaStavki = new ArrayList<>();
@@ -57,6 +57,9 @@ public class TabelaStavkiRezervacije extends AbstractTableModel{
             case 5:
                 return sr.getIznosStavke();
 
+            case 6:
+                return sr.getIdrezervacije();
+                
             default:
                 return "return!";
         }
