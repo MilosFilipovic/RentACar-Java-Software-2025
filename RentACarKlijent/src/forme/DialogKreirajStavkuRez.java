@@ -238,7 +238,7 @@ public class DialogKreirajStavkuRez extends javax.swing.JDialog {
         int idRez = Integer.valueOf(lblRezID.getText());
         
         
-        StavkaRezervacije stavka = new StavkaRezervacije( idRez, -1, vozilo.getModel(), napomena, cena, dani, iznosStavke, voziloID, vozilo);
+        StavkaRezervacije stavka = new StavkaRezervacije( idRez, -1, vozilo.getModel(), napomena, cena, dani, iznosStavke, voziloID);
         
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.KREIRAJ_STAVKU_REZ);

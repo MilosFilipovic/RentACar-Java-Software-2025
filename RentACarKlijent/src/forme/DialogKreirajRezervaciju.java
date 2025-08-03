@@ -69,6 +69,11 @@ public class DialogKreirajRezervaciju extends javax.swing.JDialog {
         jLabel4.setText("Cost:");
 
         ftxtDatumPreuzimanja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        ftxtDatumPreuzimanja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ftxtDatumPreuzimanjaActionPerformed(evt);
+            }
+        });
 
         ftxtDatumVracanja.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
 
@@ -173,7 +178,7 @@ public class DialogKreirajRezervaciju extends javax.swing.JDialog {
         Klijent k = (Klijent) cmbKlijenti.getSelectedItem();
         int klijentID = k.getIdKlijent();
         
-        Rezervacija rez = new Rezervacija(-1, uzimanje, vracanje, 0, klijentID, k, zaposleniID, null);
+        Rezervacija rez = new Rezervacija(-1, uzimanje, vracanje, 0, klijentID, zaposleniID, null);
         
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.KREIRAJ_REZERVACIJU);
@@ -195,6 +200,10 @@ public class DialogKreirajRezervaciju extends javax.swing.JDialog {
         
         trenutnaRezervacija = rez;
     }//GEN-LAST:event_btnKreirajRezActionPerformed
+
+    private void ftxtDatumPreuzimanjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ftxtDatumPreuzimanjaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ftxtDatumPreuzimanjaActionPerformed
 
     /**
      * @param args the command line arguments

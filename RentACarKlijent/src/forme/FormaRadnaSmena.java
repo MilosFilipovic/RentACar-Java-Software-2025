@@ -207,10 +207,11 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
                     .addComponent(ftxtPocetakSmene, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPretraziSmene))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtRSPretragaID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPretragaSmeneID)
-                    .addComponent(jLabel6))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnPretragaSmeneID)
+                        .addComponent(jLabel6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
@@ -275,14 +276,14 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
 
         if (row != -1) {
             TabelaRadnaSmena mt = (TabelaRadnaSmena) tblRadnaSmena.getModel();
-            Object id = tblRadnaSmena.getValueAt(row, 0);
-            mt.obrisiSmenu(row);
-
+            int id = (int) tblRadnaSmena.getValueAt(row, 0);
+            
+            RadnaSmena rs = new RadnaSmena(id, null, null);
             
 
             KlijentskiZahtev kz = new KlijentskiZahtev();
             kz.setOperacija(Operacije.OBRISI_RS);
-            kz.setParametar(id);
+            kz.setParametar(rs);
 
             Komunikacija.getInstance().posaljiZahtev(kz);
             ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -293,7 +294,7 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
 
             if (obrisan) {
                 JOptionPane.showMessageDialog(this, "Shift deleted!");
-
+                mt.obrisiSmenu(row);
                 
 
             } else {
@@ -341,12 +342,14 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
         }
         
         
-        String pocetak = ftxtPocetakSmene.getText();
+        LocalTime pocetak = LocalTime.parse(ftxtPocetakSmene.getText()); 
         
+        
+        RadnaSmena rs = new RadnaSmena(-1, pocetak, null);
         
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_SMENE);
-        kz.setParametar(pocetak);
+        kz.setParametar(rs);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -368,11 +371,11 @@ public class FormaRadnaSmena extends javax.swing.JFrame {
         
         int id = Integer.parseInt(txtRSPretragaID.getText());
         
-        
+        RadnaSmena rs = new RadnaSmena(id, null, null);
         
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_IDSMENE);
-        kz.setParametar(id);
+        kz.setParametar(rs);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();

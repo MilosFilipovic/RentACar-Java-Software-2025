@@ -16,6 +16,7 @@ public interface Operacije {
     public static final int OBRISI_ZAPOSLENOG = 4;
     public static final int IZMENI_ZAPOSLENOG = 5;
     public static final int PRETRAZI_ZAPOSLENE = 27;
+    public static final int PRETRAZI_IDZAPOSLENOG = 49;
     
     public static final int POPUNI_RS = 6;
     public static final int DODAJ_RS = 7;
@@ -65,6 +66,12 @@ public interface Operacije {
     public static final int PRETRAZI_REZERVACIJUID=46;
     public static final int PRETRAZI_REZERVACIJE_PO_MODELU_ILI_KLIJENTU=47;
     public static final int PRETRAZI_REZERVACIJE_PO_ZAP=48;
+    public static final int IZMENI_REZERVACIJU = 50;
+    public static final int IZMENI_STAVKU = 51;
+    public static final int VRATI_STAVKE_IDREZ = 52;
+    public static final int PRETRAZI_REZERVACIJE_PO_MODELU = 53;
+    public static final int PRETRAZI_REZERVACIJE_PO_KLIJENTU = 54;
+    
     
     
     

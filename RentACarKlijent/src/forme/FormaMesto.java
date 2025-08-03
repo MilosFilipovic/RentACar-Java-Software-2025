@@ -22,10 +22,13 @@ public class FormaMesto extends javax.swing.JFrame {
     /**
      * Creates new form FormaMesto
      */
+    
+    ArrayList<Mesto> listaMesta;
+    
     public FormaMesto() {
         initComponents();
         setLocationRelativeTo(null);
-        
+        listaMesta = new ArrayList<>();
         tblMesta.setModel(new TabelaMesto());
         
         popuniTabeluMesta();
@@ -49,7 +52,6 @@ public class FormaMesto extends javax.swing.JFrame {
         btnDodajMesto = new javax.swing.JButton();
         btnNazad = new javax.swing.JButton();
         btnOsveziTabeluMesta = new javax.swing.JButton();
-        btnObrisiMesto = new javax.swing.JButton();
         btnIzmeniMesto = new javax.swing.JButton();
         btnPretraziMesto = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -57,6 +59,7 @@ public class FormaMesto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtPretragaPoID = new javax.swing.JTextField();
         btnPretraziMestoPoID = new javax.swing.JButton();
+        btnDeleteRow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,13 +101,6 @@ public class FormaMesto extends javax.swing.JFrame {
             }
         });
 
-        btnObrisiMesto.setText("Delete");
-        btnObrisiMesto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObrisiMestoActionPerformed(evt);
-            }
-        });
-
         btnIzmeniMesto.setText("Change");
         btnIzmeniMesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,6 +126,13 @@ public class FormaMesto extends javax.swing.JFrame {
             }
         });
 
+        btnDeleteRow.setText("Delete");
+        btnDeleteRow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteRowActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,7 +150,7 @@ public class FormaMesto extends javax.swing.JFrame {
                         .addGap(9, 9, 9)
                         .addComponent(btnOsveziTabeluMesta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnObrisiMesto))
+                        .addComponent(btnDeleteRow))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -160,7 +163,7 @@ public class FormaMesto extends javax.swing.JFrame {
                         .addComponent(btnPretraziMestoPoID)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 78, Short.MAX_VALUE)
+                        .addGap(0, 75, Short.MAX_VALUE)
                         .addComponent(btnDodajMesto))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -189,7 +192,7 @@ public class FormaMesto extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnOsveziTabeluMesta)
-                            .addComponent(btnObrisiMesto)))
+                            .addComponent(btnDeleteRow)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblMesto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -261,40 +264,6 @@ public class FormaMesto extends javax.swing.JFrame {
         popuniTabeluMesta();
     }//GEN-LAST:event_btnOsveziTabeluMestaActionPerformed
 
-    private void btnObrisiMestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiMestoActionPerformed
-        int row = tblMesta.getSelectedRow();
-
-        if (row != -1) {
-            TabelaMesto tm = (TabelaMesto) tblMesta.getModel();
-            Object id = tblMesta.getValueAt(row, 2);
-            tm.obrisiSmenu(row);
-
-            
-
-            KlijentskiZahtev kz = new KlijentskiZahtev();
-            kz.setOperacija(Operacije.OBRISI_MESTO);
-            kz.setParametar(id);
-
-            Komunikacija.getInstance().posaljiZahtev(kz);
-            ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
-
-            tm.fireTableDataChanged();
-
-            boolean obrisan = (boolean) so.getOdgovor();
-
-            if (obrisan) {
-                JOptionPane.showMessageDialog(this, "Place deleted!");
-
-                
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Error deleting city!");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Element not selected!");
-        }
-    }//GEN-LAST:event_btnObrisiMestoActionPerformed
-
     private void btnIzmeniMestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniMestoActionPerformed
         int row = tblMesta.getSelectedRow();
         if (row != -1) {
@@ -328,9 +297,11 @@ public class FormaMesto extends javax.swing.JFrame {
         
         String grad = txtPretraziMesto.getText();
         
+        Mesto m = new Mesto(-1, grad, null);
+        
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_MESTA);
-        kz.setParametar(grad);
+        kz.setParametar(m);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -353,10 +324,11 @@ public class FormaMesto extends javax.swing.JFrame {
         int id = Integer.parseInt(txtPretragaPoID.getText());
         
         
+        Mesto m = new Mesto(id, null, null);
         
         KlijentskiZahtev kz = new KlijentskiZahtev();
         kz.setOperacija(Operacije.PRETRAZI_IDMESTA);
-        kz.setParametar(id);
+        kz.setParametar(m);
 
         Komunikacija.getInstance().posaljiZahtev(kz);
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
@@ -364,7 +336,11 @@ public class FormaMesto extends javax.swing.JFrame {
         
         
         ArrayList<Mesto> pretraziM = (ArrayList<Mesto>) so.getOdgovor();
-
+        
+        for (Mesto mesto : pretraziM) {
+            System.out.println(mesto);
+        }
+        
         tblMesta.removeAll();
 
         
@@ -372,6 +348,40 @@ public class FormaMesto extends javax.swing.JFrame {
         TabelaMesto tm = (TabelaMesto) tblMesta.getModel();
         tm.setPretragaMesto(pretraziM);
     }//GEN-LAST:event_btnPretraziMestoPoIDActionPerformed
+
+    private void btnDeleteRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteRowActionPerformed
+        int row = tblMesta.getSelectedRow();
+        
+        if (row != -1) {
+            TabelaMesto tm = (TabelaMesto) tblMesta.getModel();
+            int id = Integer.parseInt(tblMesta.getValueAt(row, 2).toString());
+            String naziv = tblMesta.getValueAt(row, 0).toString();
+            String adresa = tblMesta.getValueAt(row, 1).toString();
+            
+            Mesto m = new Mesto(id, naziv, adresa);
+            System.out.println("kreirao sam objekat: " + m);
+            
+            KlijentskiZahtev kz = new KlijentskiZahtev();
+            kz.setOperacija(Operacije.OBRISI_MESTO);
+            kz.setParametar(m);
+
+            Komunikacija.getInstance().posaljiZahtev(kz);
+            ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
+
+            tm.fireTableDataChanged();
+
+            boolean obrisan = (boolean) so.getOdgovor();
+
+            if (obrisan) {
+                tm.obrisiSmenu(row);
+                JOptionPane.showMessageDialog(this, "Place deleted!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error deleting city!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Element not selected!");
+        }
+    }//GEN-LAST:event_btnDeleteRowActionPerformed
 
     /**
      * @param args the command line arguments
@@ -409,10 +419,10 @@ public class FormaMesto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeleteRow;
     private javax.swing.JButton btnDodajMesto;
     private javax.swing.JButton btnIzmeniMesto;
     private javax.swing.JButton btnNazad;
-    private javax.swing.JButton btnObrisiMesto;
     private javax.swing.JButton btnOsveziTabeluMesta;
     private javax.swing.JButton btnPretraziMesto;
     private javax.swing.JButton btnPretraziMestoPoID;
@@ -437,10 +447,13 @@ public class FormaMesto extends javax.swing.JFrame {
 
         ArrayList<Mesto> mesta = (ArrayList<Mesto>) so.getOdgovor();
 
+        listaMesta=mesta;
         tblMesta.removeAll();
 
          
         TabelaMesto tm = (TabelaMesto) tblMesta.getModel();
         tm.setMesta(mesta);
     }
+
+    
 }

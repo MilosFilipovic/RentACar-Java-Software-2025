@@ -21,7 +21,7 @@ public class OsveziNit extends Thread {
     @Override
     public void run() {
         while(true){
-            
+//            sf.izvrsiUpit();
             try {
                 sleep(5000);
             } catch (InterruptedException ex) {

@@ -16,7 +16,7 @@ import klase.StavkaRezervacije;
 public class TabelaRezervacija extends AbstractTableModel{
     
     ArrayList<Rezervacija> listaRez = new ArrayList<>();
-    String[] kolone = {"ID", "Model", "Client", "Price"};
+    String[] kolone = {"ID", "Date", "Client", "Price", "Employee"};
     
     
 
@@ -45,20 +45,17 @@ public class TabelaRezervacija extends AbstractTableModel{
             case 0:
                 return r.getIdRezervacija();
             case 1:
-                if(r.getListaStavki().isEmpty()) return "N/A";
+                return r.getDatumPreuzimanja();
                 
-                String stavka="";
-                for(StavkaRezervacije sr : r.getListaStavki()){
-                    stavka= stavka + sr.getNazivStavke() + ", ";
-                }
-                
-                return stavka;
             case 2:
-                return r.getKlijent().getIme() + " " + r.getKlijent().getPrezime();
+                
+                return r.getIdKlijent();
             case 3:
                 return r.getIznosRezervacije();
                 
-
+            case 4:
+                return r.getIdZaposleni();
+                
             default:
                 return "return!";
         }

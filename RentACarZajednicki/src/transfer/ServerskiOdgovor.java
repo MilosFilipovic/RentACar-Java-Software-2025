@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 
 public class ServerskiOdgovor implements Serializable {
-
     private Object odgovor;
     private String poruka;
 

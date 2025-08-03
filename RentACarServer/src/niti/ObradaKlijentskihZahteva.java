@@ -28,7 +28,6 @@ import logika.Kontroler;
 import transfer.KlijentskiZahtev;
 import transfer.ServerskiOdgovor;
 
-
 public class ObradaKlijentskihZahteva extends Thread {
 
     private Socket s;
@@ -44,347 +43,686 @@ public class ObradaKlijentskihZahteva extends Thread {
             ServerskiOdgovor so = new ServerskiOdgovor();
             switch (kz.getOperacija()) {
                 case Operacije.LOGIN:
-                HashMap<Integer, String> mapa = (HashMap<Integer, String>) kz.getParametar();
+                    HashMap<Integer, String> mapa = (HashMap<Integer, String>) kz.getParametar();
                     String username = mapa.get(1);
                     String password = mapa.get(2);
                     Zaposleni zaposleni = Kontroler.getInstance().login(username, password);
                     so.setOdgovor(zaposleni);
                     break;
-                    
+
                 case Operacije.VRATI_ZAPOSLENE:
-                    ArrayList<Zaposleni> listaZaposlenih = Kontroler.getInstance().vratiZaposlene();
+                    ArrayList<Zaposleni> listaZaposlenih = null;
+                    try {
+                        listaZaposlenih = Kontroler.getInstance().vratiZaposlene();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(listaZaposlenih);
+
+                    break;    
                     
-                    break;
                     
                 case Operacije.DODAJ_ZAPOSLENOG:
                     Zaposleni z = (Zaposleni) kz.getParametar();
-                    boolean uspesno = Kontroler.getInstance().dodajZaposlenog(z);
+                    boolean uspesno = false;
+                    try {
+                        uspesno = Kontroler.getInstance().dodajZaposlenog(z);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(uspesno);
-                    
+
                     break;
-                
+
                 case Operacije.OBRISI_ZAPOSLENOG:
-                    int idz = (int) kz.getParametar();
-                    boolean obrisan = Kontroler.getInstance().obrisiZaposlenog(idz);
+
+                    Zaposleni zap = (Zaposleni) kz.getParametar();
+
+                    boolean obrisan = false;
+                    try {
+                        obrisan = Kontroler.getInstance().obrisiZaposlenog(zap);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(obrisan);
-                    
+
                     break;
-                    
+
                 case Operacije.IZMENI_ZAPOSLENOG:
                     Zaposleni izmenjenZaposleni = (Zaposleni) kz.getParametar();
-                    boolean izmenjen = Kontroler.getInstance().izmeniZaposlenog(izmenjenZaposleni);
+             
+                    boolean izmenjen = false;
+                    try {
+                        izmenjen = Kontroler.getInstance().izmeniZaposlenog(izmenjenZaposleni);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(izmenjen);
                     
-                    break;
-                    
+                    break;    
+
                 case Operacije.PRETRAZI_ZAPOSLENE:
-                    String ime = (String) kz.getParametar();
-                    ArrayList<Zaposleni> pretrazeniZ = Kontroler.getInstance().pretraziZaposlene(ime);
+                    Zaposleni nazivZap = (Zaposleni) kz.getParametar();
+                    ArrayList<Zaposleni> pretrazeniZ = new ArrayList<>();
+                    try {
+                         pretrazeniZ = Kontroler.getInstance().pretraziNazivZaposleni(nazivZap);
+
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(pretrazeniZ);
+
+                    break;
+
                     
+                 case Operacije.PRETRAZI_IDZAPOSLENOG:
+                    Zaposleni idZap = (Zaposleni) kz.getParametar();
+                    ArrayList<Zaposleni> pretrazeniZap = new ArrayList<>();
+                    try {
+                        idZap = Kontroler.getInstance().pretraziIDZaposleni(idZap);
+
+                        pretrazeniZap.add(idZap);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(pretrazeniZap);
+
                     break;
                     
                 /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
-                    
                 case Operacije.POPUNI_RS:
-                    ArrayList<RadnaSmena> listaRS = Kontroler.getInstance().vratiSmene();
+                    ArrayList<RadnaSmena> listaRS = null;
+                    try {
+                        listaRS = Kontroler.getInstance().vratiSmene();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(listaRS);
-                    
+
                     break;
+                
                     
                 case Operacije.DODAJ_RS:
                     RadnaSmena rs = (RadnaSmena) kz.getParametar();
-                    boolean dodataSmena = Kontroler.getInstance().dodajRadnuSmenu(rs);
+                    boolean dodataSmena = false;
+                    try {
+                        dodataSmena = Kontroler.getInstance().dodajRadnuSmenu(rs);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(dodataSmena);
-                    
+
                     break;
-                    
+ 
                 case Operacije.OBRISI_RS:
-                    int idrs = (int) kz.getParametar();
-                    boolean obrisanaSmena = Kontroler.getInstance().obrisiSmenu(idrs);
+
+                    RadnaSmena idrs = (RadnaSmena) kz.getParametar();
+
+                    boolean obrisanaSmena = false;
+                    try {
+                        obrisanaSmena = Kontroler.getInstance().obrisiSmenu(idrs);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(obrisanaSmena);
-                    
+
                     break;
-                    
+
+
                 case Operacije.IZMENI_SMENU:
                     RadnaSmena izmenjenaSmena = (RadnaSmena) kz.getParametar();
-                    boolean izmenjenaRS = Kontroler.getInstance().izmeniSmenu(izmenjenaSmena);
+             
+                    boolean izmenjenaRS = false;
+                    try {
+                        izmenjenaRS = Kontroler.getInstance().izmeniSmenu(izmenjenaSmena);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(izmenjenaRS);
                     
-                    break;
-                    
+                    break; 
+                
+
+
                 case Operacije.PRETRAZI_SMENE:
-                    String pocetak = (String) kz.getParametar();
-                    ArrayList<RadnaSmena> pretrazeneRS = Kontroler.getInstance().pretraziRS(pocetak);
+                    RadnaSmena pocetakRS = (RadnaSmena) kz.getParametar();
+                    ArrayList<RadnaSmena> pretrazeneRS = new ArrayList<>();
+                    try {
+                         pretrazeneRS = Kontroler.getInstance().pretraziRS(pocetakRS);
+
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(pretrazeneRS);
+
+                    break;    
                     
-                    break;
-                    
-                    
+
                 case Operacije.PRETRAZI_IDSMENE:
-                    int idsmene = (int) kz.getParametar();
-                    ArrayList<RadnaSmena> pretrazena = Kontroler.getInstance().pretraziRSID(idsmene);
-                    so.setOdgovor(pretrazena);
-                    
+                    RadnaSmena idsmena = (RadnaSmena) kz.getParametar();
+                    ArrayList<RadnaSmena> pretrazenaRS = new ArrayList<>();
+                    try {
+                        idsmena = Kontroler.getInstance().pretraziIDRS(idsmena);
+
+                        pretrazenaRS.add(idsmena);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(pretrazenaRS);
+
                     break;
                 /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
-                    
+
                 case Operacije.VRATI_CB_ZAPOSLENIH:
-                    ArrayList<Zaposleni> listaZap = Kontroler.getInstance().vratiCBZaposlene();
-                    so.setOdgovor(listaZap);
-                    
+                    ArrayList<Zaposleni> cbZap = null;
+                    try {
+                        cbZap = Kontroler.getInstance().vratiZaposlene();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(cbZap);
+
                     break;
-                    
+
                 case Operacije.VRATI_CB_SMENE:
-                    ArrayList<RadnaSmena> rsmena = Kontroler.getInstance().vratiCBRadnaSmena();
-                    so.setOdgovor(rsmena);
-                    
+                    ArrayList<RadnaSmena> cbSmene = null;
+                    try {
+                        cbSmene = Kontroler.getInstance().vratiSmene();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(cbSmene);
+
                     break;
-                    
+
                 case Operacije.DODAJ_ZRS:
                     ZRS zrs = (ZRS) kz.getParametar();
-                    boolean dodataZrs = Kontroler.getInstance().dodajZrs(zrs);
-                    so.setOdgovor(dodataZrs);
-                    
+                    boolean dodataZRS = false;
+                    try {
+                        dodataZRS = Kontroler.getInstance().dodajZRS(zrs);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(dodataZRS);
+
                     break;
-                    
+
                 case Operacije.POPUNI_ZRS:
-                    ArrayList<ZRS> listaZRS = Kontroler.getInstance().vratiZRSTabelu();
+                    ArrayList<ZRS> listaZRS = null;
+                    try {
+                        listaZRS = Kontroler.getInstance().vratiZRS();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(listaZRS);
-                    
                     break;
                     
                 case Operacije.OBRISI_ZRS:
-                    ZRS raspored = (ZRS) kz.getParametar();
-                    boolean obrisanaZRS = Kontroler.getInstance().obrisiZRS(raspored);
-                    so.setOdgovor(obrisanaZRS);
-                    
+                    ZRS idzrs = (ZRS) kz.getParametar();
+
+                    boolean obrisanaZrs = false;
+                    try {
+                        obrisanaZrs = Kontroler.getInstance().obrisiZRS(idzrs);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(obrisanaZrs);
                     break;
-                    
+
                 /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
-                    
                 case Operacije.VRATI_MESTA:
-                    ArrayList<Mesto> listaMesta = Kontroler.getInstance().vratiMesta();
+                    ArrayList<Mesto> listaMesta = null;
+                    try {
+                        listaMesta = Kontroler.getInstance().getListMesta();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(listaMesta);
-                    
+
                     break;
-                    
+
                 case Operacije.DODAJ_MESTO:
                     Mesto m = (Mesto) kz.getParametar();
-                    boolean dodatoMesto = Kontroler.getInstance().dodajMesto(m);
+                    boolean dodatoMesto = false;
+                    try {
+                        dodatoMesto = Kontroler.getInstance().dodajMesto(m);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(dodatoMesto);
-                    
+
                     break;
-                    
+
                 case Operacije.OBRISI_MESTO:
-                    int idm = (int) kz.getParametar();
-                    boolean obrisanoMesto = Kontroler.getInstance().obrisiMesto(idm);
+                
+                    Mesto meesto = (Mesto) kz.getParametar();
+                    
+                    
+                    boolean obrisanoMesto = false;
+                    try {
+                        obrisanoMesto = Kontroler.getInstance().obrisiMesto(meesto);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(obrisanoMesto);
                     
                     break;
-                    
+
+
                 case Operacije.IZMENI_MESTO:
+                
                     Mesto izmenjenoMesto = (Mesto) kz.getParametar();
-                    boolean izmenjenNaziv = Kontroler.getInstance().izmeniMesto(izmenjenoMesto);
+                    
+                    
+                    boolean izmenjenNaziv = false;
+                    try {
+                        izmenjenNaziv = Kontroler.getInstance().izmeniMesto(izmenjenoMesto);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(izmenjenNaziv);
                     
                     break;
-                    
-                case Operacije.PRETRAZI_MESTA:
-                    String grad = (String) kz.getParametar();
-                    ArrayList<Mesto> pretrazenoM = Kontroler.getInstance().pretraziMesta(grad);
-                    so.setOdgovor(pretrazenoM);
-                    
-                    break;
-                
-                    
+//                
+
                 case Operacije.PRETRAZI_IDMESTA:
-                    int idmesta = (int) kz.getParametar();
-                    ArrayList<Mesto> pretrazenoMesto = Kontroler.getInstance().pretraziIDMesta(idmesta);
+                
+                    Mesto idMesta = (Mesto) kz.getParametar();
+                    ArrayList<Mesto> pretrazenoMesto = new ArrayList<>();
+                    try {
+                        idMesta = Kontroler.getInstance().pretraziIDMesta(idMesta);
+                        
+                        pretrazenoMesto.add(idMesta);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(pretrazenoMesto);
                     
                     break;
-                /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
+
                     
-                case Operacije.VRATI_KLIJENTE:
-                    ArrayList<Klijent> listaKlijenata = Kontroler.getInstance().vratiKlijente();
-                    so.setOdgovor(listaKlijenata);
+                
                     
+                case Operacije.PRETRAZI_MESTA:
+                    Mesto nazivM = (Mesto) kz.getParametar();
+                    ArrayList<Mesto> pretrazenaM = new ArrayList<>();
+                    try {
+                         pretrazenaM = Kontroler.getInstance().pretraziNazivMesto(nazivM);
+
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(pretrazenaM);
+
                     break;
-                    
+               
+                /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
+
+                case Operacije.VRATI_KLIJENTE:
+                    ArrayList<Klijent> listaKlijenata = null;
+                    try {
+                        listaKlijenata = Kontroler.getInstance().vratiKlijente();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(listaKlijenata);
+
+                    break;
+
                 case Operacije.DODAJ_KLIJENTA:
                     Klijent k = (Klijent) kz.getParametar();
-                    boolean klijent = Kontroler.getInstance().kreirajKlijenta(k);
+                    boolean klijent = false;
+                    try {
+                        klijent = Kontroler.getInstance().dodajKlijenta(k);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(klijent);
-                    
                     break;
-                    
+
                 case Operacije.OBRISI_KLIJENTA:
-                    int idk = (int) kz.getParametar();
-                    boolean obrisanKlijent = Kontroler.getInstance().obrisiKlijenta(idk);
+                    Klijent obrisiK = (Klijent) kz.getParametar();
+
+                    boolean obrisanKlijent = false;
+                    try {
+                        obrisanKlijent = Kontroler.getInstance().obrisiKlijenta(obrisiK);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(obrisanKlijent);
-                    
+
                     break;
-                    
+
                 case Operacije.IZMENI_KLIJENTA:
                     Klijent izmenjenKlijent = (Klijent) kz.getParametar();
-                    boolean izmenjenK = Kontroler.getInstance().izmeniKlijenta(izmenjenKlijent);
+             
+                    boolean izmenjenK = false;
+                    try {
+                        izmenjenK = Kontroler.getInstance().izmeniKlijenta(izmenjenKlijent);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(izmenjenK);
-                    
+
                     break;
-                    
+
                 case Operacije.PRETRAZI_KLIJENTA:
-                    String imek = (String) kz.getParametar();
-                    ArrayList<Klijent> pretrazeniK = Kontroler.getInstance().pretraziKlijente(imek);
+                    Klijent nazivK = (Klijent) kz.getParametar();
+                    ArrayList<Klijent> pretrazeniK = new ArrayList<>();
+                    try {
+                         pretrazeniK = Kontroler.getInstance().pretraziNazivKlijent(nazivK);
+
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(pretrazeniK);
-                    
+
                     break;
-                    
+
                 case Operacije.VRATI_CB_ADRESA:
                     ArrayList<Mesto> listaAdresa = Kontroler.getInstance().vratiAdrese();
                     so.setOdgovor(listaAdresa);
-                    
+
                     break;
-                    
+
                 case Operacije.PRETRAZI_IDKLIJENTA:
-                    int id = (int) kz.getParametar();
-                    ArrayList<Klijent> pretrazeniKID = Kontroler.getInstance().pretraziIDKlijenta(id);
-                    so.setOdgovor(pretrazeniKID);
-                    
+                    Klijent idK = (Klijent) kz.getParametar();
+                    ArrayList<Klijent> pretrazenKlijent = new ArrayList<>();
+                    try {
+                        idK = Kontroler.getInstance().pretraziIDKlijent(idK);
+                        
+                        pretrazenKlijent.add(idK);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(pretrazenKlijent);
+
                     break;
-                    
-                    
-                
+
                 /*    ////////////////////////////////////////////////////////////////////////////////////////////  */
-                    
                 case Operacije.VRATI_VOZILA:
-                    ArrayList<Vozilo> listaVozila = Kontroler.getInstance().vratiVozila();
+                    ArrayList<Vozilo> listaVozila = null;
+                    try {
+                        listaVozila = Kontroler.getInstance().getListVozila();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(listaVozila);
-                    
+
                     break;
-                    
+                
                 case Operacije.DODAJ_VOZILO:
                     Vozilo v = (Vozilo) kz.getParametar();
-                    boolean dodatoVozilo = Kontroler.getInstance().dodajVozilo(v);
+                    boolean dodatoVozilo = false;
+                    try {
+                        dodatoVozilo = Kontroler.getInstance().dodajVozilo(v);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(dodatoVozilo);
-                    
+
                     break;
-                    
+
                 case Operacije.OBRISI_VOZILO:
-                    int idv = (int) kz.getParametar();
-                    boolean obrisanoVozilo = Kontroler.getInstance().obrisiVozilo(idv);
+                
+                    Vozilo voz = (Vozilo) kz.getParametar();
+                    
+                    
+                    boolean obrisanoVozilo = false;
+                    try {
+                        obrisanoVozilo = Kontroler.getInstance().obrisiVozilo(voz);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(obrisanoVozilo);
                     
                     break;
-                    
+
                 case Operacije.IZMENI_VOZILO:
+                
                     Vozilo vozilo = (Vozilo) kz.getParametar();
-                    boolean izmenjenoVozilo = Kontroler.getInstance().izmeniVozilo(vozilo);
+                    
+                    
+                    boolean izmenjenoVozilo = false;
+                    try {
+                        izmenjenoVozilo = Kontroler.getInstance().izmeniVozilo(vozilo);   
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(izmenjenoVozilo);
                     
-                    break;
-                    
-                case Operacije.PRETRAZI_VOZILA:
-                    String model = (String) kz.getParametar();
-                    ArrayList<Vozilo> pretrazenaV = Kontroler.getInstance().pretraziVozila(model);
-                    so.setOdgovor(pretrazenaV);
-                    
-                    break;
-                    
-                    
+                    break;  
+
                 case Operacije.PRETRAZI_IDVOZILA:
-                    int idvozila = (int) kz.getParametar();
-                    ArrayList<Vozilo> pretrazenAuto = Kontroler.getInstance().pretraziIDVozila(idvozila);
-                    so.setOdgovor(pretrazenAuto);
-                    
+                    Vozilo idV = (Vozilo) kz.getParametar();
+                    ArrayList<Vozilo> pretrazenoV = new ArrayList<>();
+                    try {
+                        idV = Kontroler.getInstance().pretraziIDVozilo(idV);
+
+                        pretrazenoV.add(idV);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(pretrazenoV);
+
                     break;
+
+                case Operacije.PRETRAZI_VOZILA:
+                    Vozilo nazivV = (Vozilo) kz.getParametar();
+                    ArrayList<Vozilo> pretrazenaV = new ArrayList<>();
+                    try {
+                         pretrazenaV = Kontroler.getInstance().pretraziNazivVozilo(nazivV);
+
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(pretrazenaV);
+
+                    break;
+                    
+                 
                 /* ///////////////////////////////////////////////////////////////////////////////////////////// */
-                    
+
                 case Operacije.VRATI_REZERVACIJE:
-                    ArrayList<Rezervacija> listaRez = Kontroler.getInstance().vratiRezervacije();
+                    ArrayList<Rezervacija> listaRez = null;
+                    try {
+                        listaRez = Kontroler.getInstance().getListRez();
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(listaRez);
-                    
+
                     break;
-                    
+
                 case Operacije.KREIRAJ_STAVKU_REZ:
                     StavkaRezervacije sr = (StavkaRezervacije) kz.getParametar();
-                    boolean kreirano = Kontroler.getInstance().kreirajStavkuRez(sr);
-                    so.setOdgovor(kreirano);
-                    
+                    boolean dodataStavka = false;
+                    try {
+                        dodataStavka = Kontroler.getInstance().dodajStavku(sr);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(dodataStavka);
+
                     break;
-                    
+
                 case Operacije.KREIRAJ_REZERVACIJU:
                     Rezervacija r = (Rezervacija) kz.getParametar();
-                    boolean kreiranaRez = Kontroler.getInstance().kreirajRez(r);
-                    so.setOdgovor(kreiranaRez);
+                    boolean dodataRez = false;
+                    try {
+                        dodataRez = Kontroler.getInstance().dodajRez(r);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(dodataRez);
+
+                    break;
+
                     
+                case Operacije.IZMENI_REZERVACIJU:
+                    
+                    Rezervacija rez = (Rezervacija) kz.getParametar();
+                    
+                    
+                    boolean izmenjenaRez = false;
+                    try {
+                        izmenjenaRez = Kontroler.getInstance().izmeniRez(rez);   
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(izmenjenaRez);
                     break;
                     
                 case Operacije.OBRISI_REZERVACIJU:
-                    int idr = (int) kz.getParametar();
-                    boolean obrisanaRez = Kontroler.getInstance().obrisiRezervaciju(idr);
+                    Rezervacija reza = (Rezervacija) kz.getParametar();
+                    
+                    
+                    boolean obrisanaRez = false;
+                    try {
+                        obrisanaRez = Kontroler.getInstance().obrisiRezu(reza);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     so.setOdgovor(obrisanaRez);
-                    
+
                     break;
+
+                case Operacije.IZMENI_STAVKU:
                     
-                case Operacije.PRETRAZI_REZERVACIJE:
-                    LocalDate datum = (LocalDate) kz.getParametar();
-                    ArrayList<Rezervacija> pretrazeneRez = Kontroler.getInstance().pretraziRez(datum);
-                    so.setOdgovor(pretrazeneRez);
+                    StavkaRezervacije srez = (StavkaRezervacije) kz.getParametar();
                     
+                    
+                    boolean izmenjenaStavka = false;
+                    try {
+                        izmenjenaStavka = Kontroler.getInstance().izmeniStavkuRez(srez);   
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(izmenjenaStavka);
                     break;
-                
-                case Operacije.PRETRAZI_REZERVACIJUID:
-                    int idrez = (int) kz.getParametar();
-                    ArrayList<Rezervacija> pronadjenaRez = Kontroler.getInstance().pretraziRezPoID(idrez);
-                    so.setOdgovor(pronadjenaRez);
-                    
-                    break;    
-                
-                    
-                case Operacije.PRETRAZI_REZERVACIJE_PO_ZAP:
-                    int idzap = (int) kz.getParametar();
-                    ArrayList<Rezervacija> rezPoZaposlenom = Kontroler.getInstance().pretraziRezPoZap(idzap);
-                    so.setOdgovor(rezPoZaposlenom);
-                    
-                    break;
-                    
-                case Operacije.PRETRAZI_REZERVACIJE_PO_MODELU_ILI_KLIJENTU:
-                    String modelKlijent = (String) kz.getParametar();
                     
 
-                    ArrayList<Rezervacija> pretrazeneRezervacije = Kontroler.getInstance().pretraziRezModelKlijent(modelKlijent);
-                    so.setOdgovor(pretrazeneRezervacije);
+
+                case Operacije.PRETRAZI_REZERVACIJUID:
+                    Rezervacija idR = (Rezervacija) kz.getParametar();
+                    ArrayList<Rezervacija> pretrazenaR = new ArrayList<>();
+                    try {
+                        idR = Kontroler.getInstance().pretraziIDRez(idR);
+
+                        pretrazenaR.add(idR);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(pretrazenaR);
+
+                    break;
+
+                case Operacije.PRETRAZI_REZERVACIJE_PO_ZAP:
+                    Rezervacija zapR = (Rezervacija) kz.getParametar();
+                    ArrayList<Rezervacija> listaRezZap = new ArrayList<>();
+                    try {
+                         listaRezZap = Kontroler.getInstance().pretraziZapID(zapR);
+
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(listaRezZap);
+
+                    break;
                     
+                    
+                case Operacije.PRETRAZI_REZERVACIJE_PO_KLIJENTU:
+                    Rezervacija klijentR = (Rezervacija) kz.getParametar();
+                    ArrayList<Rezervacija> listaRezKlijent = new ArrayList<>();
+                    try {
+                         listaRezKlijent = Kontroler.getInstance().pretraziRezIDKlijent(klijentR);
+
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(listaRezKlijent);
+
+                    break;
+                  
+                case Operacije.PRETRAZI_REZERVACIJE_PO_MODELU:
+                    Rezervacija modelR = (Rezervacija) kz.getParametar();
+                    ArrayList<Rezervacija> listaRezModel = new ArrayList<>();
+                    try {
+                        listaRezModel = Kontroler.getInstance().pretraziRezModel(modelR);
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(listaRezModel);
+
+                    break;
+                    
+//
+//                case Operacije.PRETRAZI_REZERVACIJE_PO_MODELU_ILI_KLIJENTU:
+//                    String modelKlijent = (String) kz.getParametar();
+//
+//                    ArrayList<Rezervacija> pretrazeneRezervacije = Kontroler.getInstance().pretraziRezModelKlijent(modelKlijent);
+//                    so.setOdgovor(pretrazeneRezervacije);
+//
+//                    break;
+
+                case Operacije.VRATI_STAVKE_IDREZ:
+                    StavkaRezervacije stavkerez = (StavkaRezervacije) kz.getParametar();
+                    
+                    ArrayList<StavkaRezervacije> listaStavkiRez = null;
+                    try {
+                        listaStavkiRez = Kontroler.getInstance().getListStavkiPoID(stavkerez);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(listaStavkiRez);
+
                     break;
                     
                 case Operacije.VRATI_STAVKE:
-                    int rezID = (int) kz.getParametar();
-                    ArrayList<StavkaRezervacije> listaStavki = Kontroler.getInstance().vratiStavkeRez(rezID);
-                    so.setOdgovor(listaStavki);
-                    
-                    break;
-                    
-                case Operacije.OBRISI_STAVKU:
-                    int rb = (int) kz.getParametar();
-                    boolean obrisanaStavka = Kontroler.getInstance().obrisiStavku(rb);
-                    so.setOdgovor(obrisanaStavka);
-                    
-                    break;
-                    
-                case Operacije.UPDATE_IZNOS:
-                    int idiznos = (int) kz.getParametar();
-                {
+                    ArrayList<StavkaRezervacije> listaStavki = null;
                     try {
-                        boolean izmenjenIznos=Kontroler.getInstance().apdejtujIznos(idiznos);
-                        so.setOdgovor(izmenjenIznos);
-                    } catch (SQLException ex) {
+                        listaStavki = Kontroler.getInstance().getListStavke();
+                    } catch (Exception ex) {
                         Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-                    
+                    so.setOdgovor(listaStavki);
+
                     break;
+
+                case Operacije.OBRISI_STAVKU:
+                    StavkaRezervacije stavka = (StavkaRezervacije) kz.getParametar();
+                    
+                    
+                    boolean obrisanaStavka = false;
+                    try {
+                        obrisanaStavka = Kontroler.getInstance().obrisiStavku(stavka);
+                    } catch (Exception ex) {
+                        Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    so.setOdgovor(obrisanaStavka);
+
+                    break;
+
+//                case Operacije.UPDATE_IZNOS:
+//                    int idiznos = (int) kz.getParametar();
+//                     {
+//                        try {
+//                            boolean izmenjenIznos = Kontroler.getInstance().apdejtujIznos(idiznos);
+//                            so.setOdgovor(izmenjenIznos);
+//                        } catch (SQLException ex) {
+//                            Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
+//
+//                    break;
 
             }
             posaljiOdgovor(so);
@@ -396,7 +734,7 @@ public class ObradaKlijentskihZahteva extends Thread {
             ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
             return (KlijentskiZahtev) ois.readObject();
         } catch (IOException | ClassNotFoundException ex) {
-            
+
             Logger.getLogger(ObradaKlijentskihZahteva.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

@@ -118,10 +118,13 @@ public class LoginForma extends javax.swing.JFrame {
         kz.setOperacija(Operacije.LOGIN);
         kz.setParametar(mapa);
         
+
         Komunikacija.getInstance().posaljiZahtev(kz);
+        
         ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
         
         Zaposleni zaposleni = (Zaposleni) so.getOdgovor();
+        
         
         if (zaposleni == null) {
             JOptionPane.showMessageDialog(this, "Incorect values!");

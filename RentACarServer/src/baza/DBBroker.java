@@ -981,7 +981,7 @@ public class DBBroker {
                 
                 
                 Rezervacija r = new Rezervacija(rs.getInt("idRezervacije"), uzimanje, vracanje, rs.getDouble("iznosRezervacije"),
-                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
+                        rs.getInt("idKlijent"), rs.getInt("idZaposleni"), null);
                 lista.add(r);
 
             }
@@ -1033,7 +1033,7 @@ public class DBBroker {
                 Vozilo vozilo = vratiVozilo(rs.getInt("idVozilo"));
 
                 StavkaRezervacije stavka = new StavkaRezervacije( rs.getInt("idRezervacije"),rs.getInt("rb"), rs.getString("nazivStavke"), rs.getString("napomena"),
-                        rs.getDouble("cenaVozila"), rs.getInt("brojDana"), rs.getDouble("iznosStavke"), rs.getInt("idVozilo"), vozilo);
+                        rs.getDouble("cenaVozila"), rs.getInt("brojDana"), rs.getDouble("iznosStavke"), rs.getInt("idVozilo"));
                 listaStavki.add(stavka);
             }
         } catch (SQLException ex) {
@@ -1253,7 +1253,7 @@ public class DBBroker {
                 ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
 
                 Rezervacija rez = new Rezervacija(id, datumUzimanja, datumVracanja, rs.getDouble("iznosRezervacije"),
-                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
+                        rs.getInt("idKlijent"), rs.getInt("idZaposleni"), null);
                 
                 lista.add(rez);
 
@@ -1321,7 +1321,7 @@ public class DBBroker {
                 ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
 
                 Rezervacija rez = new Rezervacija(id, datumUzimanja, datumVracanja, rs.getDouble("iznosRezervacije"),
-                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
+                        rs.getInt("idKlijent"), rs.getInt("idZaposleni"), null);
                 
                 lista.add(rez);
 
@@ -1354,7 +1354,7 @@ public class DBBroker {
                 ArrayList<StavkaRezervacije> listaStavki = vratiStavkeRezervacije(id);
 
                 Rezervacija rez = new Rezervacija(id, datumUzimanja, datumVracanja, rs.getDouble("iznosRezervacije"),
-                        rs.getInt("idKlijent"), klijent, rs.getInt("idZaposleni"), listaStavki);
+                        rs.getInt("idKlijent"), rs.getInt("idZaposleni"), null);
                 
                 lista.add(rez);
 
@@ -1400,9 +1400,9 @@ public class DBBroker {
                 Rezervacija rez = new Rezervacija(id, datumUz, datumVr,
                         rs.getDouble("iznosRezervacije"),
                         rs.getInt("idKlijent"),
-                        klijent,
-                        rs.getInt("idZaposleni"),
-                        listaStavki);
+                        
+                        rs.getInt("idZaposleni"),null
+                        );
                 lista.add(rez);
 
             }

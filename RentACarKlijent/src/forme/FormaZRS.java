@@ -51,10 +51,9 @@ public class FormaZRS extends javax.swing.JFrame {
         btnUnesiZRS = new javax.swing.JButton();
         btnNazad = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        ftxtDatumZaDodelu = new javax.swing.JFormattedTextField();
         btnObrisiRaspored = new javax.swing.JButton();
-        btnIzmeniRaspored = new javax.swing.JButton();
         btnOsveziTabelu = new javax.swing.JButton();
+        txtDatumRada = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Schedule");
@@ -102,19 +101,10 @@ public class FormaZRS extends javax.swing.JFrame {
 
         jLabel2.setText("Insert date (yyyy-MM-dd):");
 
-        ftxtDatumZaDodelu.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
-
         btnObrisiRaspored.setText("Delete");
         btnObrisiRaspored.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnObrisiRasporedActionPerformed(evt);
-            }
-        });
-
-        btnIzmeniRaspored.setText("Change");
-        btnIzmeniRaspored.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzmeniRasporedActionPerformed(evt);
             }
         });
 
@@ -130,55 +120,54 @@ public class FormaZRS extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(157, 157, 157)
+                        .addComponent(btnNazad))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnOsveziTabelu)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnObrisiRaspored, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbIDZaposlenih, 0, 100, Short.MAX_VALUE)
-                                    .addComponent(ftxtDatumZaDodelu))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbIDSmena, 0, 97, Short.MAX_VALUE)
-                                    .addComponent(btnUnesiZRS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtDatumRada)
+                            .addComponent(cbIDZaposlenih, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnOsveziTabelu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnObrisiRaspored, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnIzmeniRaspored, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnNazad))))
+                            .addComponent(cbIDSmena, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUnesiZRS, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnObrisiRaspored)
+                    .addComponent(btnOsveziTabelu))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnIzmeniRaspored)
-                        .addGap(9, 9, 9)
-                        .addComponent(btnObrisiRaspored)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnOsveziTabelu)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cbIDZaposlenih, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbIDSmena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(ftxtDatumZaDodelu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUnesiZRS))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbIDZaposlenih, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbIDSmena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnUnesiZRS)
+                            .addComponent(jLabel2)
+                            .addComponent(txtDatumRada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addComponent(btnNazad)
                 .addContainerGap())
         );
@@ -192,7 +181,7 @@ public class FormaZRS extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNazadActionPerformed
 
     private void btnUnesiZRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnesiZRSActionPerformed
-        if (ftxtDatumZaDodelu.getText().isEmpty() || cbIDSmena.getSelectedIndex() == -1 || cbIDZaposlenih.getSelectedIndex() == -1) {
+        if (txtDatumRada.getText().isEmpty() || cbIDSmena.getSelectedIndex() == -1 || cbIDZaposlenih.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(this, "All fields must be filled!");
             return;
         }
@@ -202,7 +191,7 @@ public class FormaZRS extends javax.swing.JFrame {
         int idsmene = Integer.parseInt((String) cbIDSmena.getSelectedItem());
         
         
-        LocalDate datum = LocalDate.parse(ftxtDatumZaDodelu.getText());
+        LocalDate datum = LocalDate.parse(txtDatumRada.getText());
         
         ZRS zrs = new ZRS(datum, idzap, idsmene);
         
@@ -242,9 +231,11 @@ public class FormaZRS extends javax.swing.JFrame {
             LocalDate datum = (LocalDate) tblRaspored.getValueAt(row, 0);
             int idzap = (int) tblRaspored.getValueAt(row, 1);
             int idsmene = (int) tblRaspored.getValueAt(row, 2);
+            
+            
             ZRS objekat = new ZRS(datum, idzap, idsmene);
 
-            tzrs.obrisiRaspored(row);
+            
             
             KlijentskiZahtev kz = new KlijentskiZahtev();
             kz.setOperacija(Operacije.OBRISI_ZRS);
@@ -253,6 +244,7 @@ public class FormaZRS extends javax.swing.JFrame {
             Komunikacija.getInstance().posaljiZahtev(kz);
             ServerskiOdgovor so = Komunikacija.getInstance().primiOdgovor();
 
+            tzrs.obrisiRaspored(row);
             tzrs.fireTableDataChanged();
 
             boolean obrisan = (boolean) so.getOdgovor();
@@ -267,10 +259,6 @@ public class FormaZRS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Element not selected!");
         }
     }//GEN-LAST:event_btnObrisiRasporedActionPerformed
-
-    private void btnIzmeniRasporedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniRasporedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnIzmeniRasporedActionPerformed
 
     private void btnOsveziTabeluActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsveziTabeluActionPerformed
         popuniRaspored();
@@ -316,18 +304,17 @@ public class FormaZRS extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIzmeniRaspored;
     private javax.swing.JButton btnNazad;
     private javax.swing.JButton btnObrisiRaspored;
     private javax.swing.JButton btnOsveziTabelu;
     private javax.swing.JButton btnUnesiZRS;
     private javax.swing.JComboBox<String> cbIDSmena;
     private javax.swing.JComboBox<Zaposleni> cbIDZaposlenih;
-    private javax.swing.JFormattedTextField ftxtDatumZaDodelu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblRaspored;
+    private javax.swing.JTextField txtDatumRada;
     // End of variables declaration//GEN-END:variables
 
     private void popuniIDZaposlenih() {

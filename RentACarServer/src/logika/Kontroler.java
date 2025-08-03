@@ -6,7 +6,7 @@
 package logika;
 
 import baza.DBBroker;
-import java.lang.reflect.Array;
+import baza.DBBrokerNew;
 import klase.Zaposleni;
 import klase.Mesto;
 import klase.RadnaSmena;
@@ -20,15 +20,64 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import so.klijent.SOGetListKlijent;
+import so.klijent.SOIzmeniKlijenta;
+import so.klijent.SOKreirajKlijenta;
+import so.klijent.SOObrisiKlijenta;
+import so.klijent.SOPretraziKlijentaID;
+import so.klijent.SOPretraziKlijentaNaziv;
+import so.mesto.SOGetListMesto;
+import so.mesto.SOIzmeniMesto;
+import so.mesto.SOKreirajMesto;
+import so.mesto.SOObrisiMesto;
+import so.mesto.SOPretraziMestaNaziv;
+import so.mesto.SOUcitajMestoID;
+import so.radnasmena.SOGetListRS;
+import so.radnasmena.SOIzmeniRS;
+import so.radnasmena.SOKreirajRS;
+import so.radnasmena.SOObrisiRS;
+import so.radnasmena.SOPretraziRSID;
+import so.radnasmena.SOPretraziRSPocetak;
+import so.rezervacija.SOGetListRezervacija;
+import so.rezervacija.SOIzmeniRez;
+import so.rezervacija.SOKreirajRez;
+import so.rezervacija.SOObrisiRezervaciju;
+import so.rezervacija.SOPretraziRezID;
+import so.rezervacija.SOPretraziRezPoKlijentID;
+import so.rezervacija.SOPretraziRezPoVozilu;
+import so.rezervacija.SOPretraziRezPoZap;
+import so.stavke.SOGetListStavke;
+import so.stavke.SOIzmeniStavku;
+import so.stavke.SOKreirajStavku;
+import so.stavke.SOObrisiStavku;
+import so.stavke.SOVratiStavkeRez;
+import so.vozilo.SOGetListVozilo;
+import so.vozilo.SOIzmeniVozilo;
+import so.vozilo.SOKreirajVozilo;
+import so.vozilo.SOObrisiVozilo;
+import so.vozilo.SOPretraziVozilaNaziv;
+import so.vozilo.SOPretraziVoziloID;
+import so.zaposleni.SOGetListZaposleni;
+import so.zaposleni.SOIzmeniZaposlenog;
+import so.zaposleni.SOKreirajZaposlenog;
+import so.zaposleni.SOObrisiZaposlenog;
+import so.zaposleni.SOPretraziZapID;
+import so.zaposleni.SOPretraziZapNaziv;
+import so.zrs.SOGetListZRS;
+import so.zrs.SOKreirajZRS;
+import so.zrs.SOObrisiZRS;
 
 
 public class Kontroler {
 
     private static Kontroler instance;
     private DBBroker dbb;
+    
+    
 
     private Kontroler() {
         dbb = new DBBroker();
+        
     }
 
     public static Kontroler getInstance() {
@@ -37,275 +86,532 @@ public class Kontroler {
         }
         return instance;
     }
+    
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Zaposleni login(String username, String password) {
-        return dbb.login(username, password);
-    }
-
-    public ArrayList<Zaposleni> vratiZaposlene() {
-        return dbb.vratiZaposlene();
-    }
-
-    public boolean dodajZaposlenog(Zaposleni z) {
+        Zaposleni z = DBBrokerNew.getInstance().login(username, password);
         
-        try {
-            return dbb.dodajZaposlenog(z);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-        
+        return z;
     }
 
-    public boolean obrisiZaposlenog(int idz) {
-        return dbb.obrisiZaposlenog(idz);
-    }
-
-    public boolean izmeniZaposlenog(Zaposleni izmenjenZaposleni) {
-        try {
-            return dbb.izmeniZaposlenog(izmenjenZaposleni);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public ArrayList<Zaposleni> vratiZaposlene() throws Exception {
+        SOGetListZaposleni so = new SOGetListZaposleni();
+        so.templateExecute(new Zaposleni());
+        ArrayList<Zaposleni> zaposleni = so.getZaposleni();
+        if (zaposleni.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita zaposlene");
         }
-        return false;
+        return zaposleni;
     }
     
-    public ArrayList<Zaposleni> pretraziZaposlene(String ime) {
-        return dbb.pretraziZaposlene(ime);
+    public boolean dodajZaposlenog(Zaposleni z) throws Exception {
+        SOKreirajZaposlenog so = new SOKreirajZaposlenog();
+        so.templateExecute(z);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("Mesto nije dodato!!!");
+        }
+        return true;
+    }
+
+
+    public boolean obrisiZaposlenog(Zaposleni zap) throws Exception {
+        try{
+            SOObrisiZaposlenog so = new SOObrisiZaposlenog();
+        so.templateExecute(zap);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izbrise zaposlenog");
+            
+        }
+        }catch(Exception e){
+            throw new Exception("Ne mozete izbrisati zaposlenog");
+        }
+        
+        return true;
+    }
+    
+
+
+    public boolean izmeniZaposlenog(Zaposleni izmenjenZaposleni) throws Exception {
+        SOIzmeniZaposlenog so = new SOIzmeniZaposlenog();
+        so.templateExecute(izmenjenZaposleni);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izmeni zaposlenog");
+        }
+        return true;
+    }
+    
+    public ArrayList<Zaposleni> pretraziNazivZaposleni(Zaposleni nazivZap) throws Exception {
+        SOPretraziZapNaziv so = new SOPretraziZapNaziv();
+        so.templateExecute(nazivZap);
+        ArrayList<Zaposleni> zaposleniPoNazivu = so.getZaposleni();
+        if (zaposleniPoNazivu.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita zaposlene");
+        }
+        return zaposleniPoNazivu;
+    }
+    
+    public Zaposleni pretraziIDZaposleni(Zaposleni idZap) throws Exception {
+        SOPretraziZapID so = new SOPretraziZapID();
+        so.templateExecute(idZap);
+        Zaposleni z = so.getZ();
+        
+        if (z==null) {
+            throw new Exception("Sistem nije uspeo da ucita zaposlenog");
+        }
+        return z;
     }
     
     /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-    public ArrayList<RadnaSmena> vratiSmene() {
-        return dbb.vratiSmene();
+    public ArrayList<RadnaSmena> vratiSmene() throws Exception {
+        SOGetListRS so = new SOGetListRS();
+        so.templateExecute(new RadnaSmena());
+        ArrayList<RadnaSmena> smene = so.getRS();
+        if (smene.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita smene");
+        }
+        return smene;
     }
 
-    public boolean dodajRadnuSmenu(RadnaSmena rs) {
-        try {
-            return dbb.dodajRadnuSmenu(rs);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean dodajRadnuSmenu(RadnaSmena rs) throws Exception {
+        SOKreirajRS so = new SOKreirajRS();
+        so.templateExecute(rs);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("SMena nije dodata!!!");
+        }
+        return true;
+    }
+
+    public boolean obrisiSmenu(RadnaSmena idrs) throws Exception {
+        try{
+            SOObrisiRS so = new SOObrisiRS();
+        so.templateExecute(idrs);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izbrise smenu");
+            
+        }
+        }catch(Exception e){
+            throw new Exception("Ne mozete izbrisati smenu");
         }
         
-        return false;
+        return true;
     }
+    
 
-    public boolean obrisiSmenu(int idrs) {
-        return dbb.obrisiSmenu(idrs);
-    }
 
-    public boolean izmeniSmenu(RadnaSmena izmenjenaSmena) {
-        try {
-            return dbb.izmeniSmenu(izmenjenaSmena);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean izmeniSmenu(RadnaSmena izmenjenaSmena) throws Exception {
+        SOIzmeniRS so = new SOIzmeniRS();
+        so.templateExecute(izmenjenaSmena);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izmeni smenu");
         }
-        
-        return false;
+        return true;
     }
     
-    public ArrayList<RadnaSmena> pretraziRS(String pocetak) {
-        return dbb.pretraziSmene(pocetak);
+    public ArrayList<RadnaSmena> pretraziRS(RadnaSmena pocetakRS) throws Exception {
+        SOPretraziRSPocetak so = new SOPretraziRSPocetak();
+        so.templateExecute(pocetakRS);
+        ArrayList<RadnaSmena> smenePocetak = so.getRS();
+        if (smenePocetak.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita smene");
+        }
+        return smenePocetak;
     }
     
-    public ArrayList<RadnaSmena> pretraziRSID(int idsmene) {
-        int idrs=idsmene;
-        return dbb.vratiRSID(idrs);
+  
+    public RadnaSmena pretraziIDRS(RadnaSmena idsmena) throws Exception {
+        SOPretraziRSID so = new SOPretraziRSID();
+        so.templateExecute(idsmena);
+        RadnaSmena rs = so.getRs();
         
+        if (rs==null) {
+            throw new Exception("Sistem nije uspeo da ucita smenu");
+        }
+        return rs;
     }
     
      /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-    public ArrayList<Zaposleni> vratiCBZaposlene() {
-        return dbb.vratiCBZaposlene();
-    }
 
-    public ArrayList<RadnaSmena> vratiCBRadnaSmena() {
-        return dbb.vratiCBRadnaSmena();
-    }
 
-    public boolean dodajZrs(ZRS zrs) {
-        try {
-            return dbb.dodajZrs(zrs);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean dodajZRS(ZRS zrs) throws Exception {
+        SOKreirajZRS so = new SOKreirajZRS();
+        so.templateExecute(zrs);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("Raspored nije dodat!!!");
+        }
+        return true;
+    }
+    
+    
+
+    public ArrayList<ZRS> vratiZRS() throws Exception {
+        SOGetListZRS so = new SOGetListZRS();
+        so.templateExecute(new ZRS());
+        ArrayList<ZRS> raspored = so.getZRS();
+        if (raspored.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita smene");
+        }
+        return raspored;
+    }
+    
+    
+
+    public boolean obrisiZRS(ZRS raspored) throws Exception {
+        try{
+            SOObrisiZRS so = new SOObrisiZRS();
+        so.templateExecute(raspored);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izbrise smenu");
+            
+        }
+        }catch(Exception e){
+            throw new Exception("Ne mozete izbrisati smenu");
         }
         
-        return false;
-    }
-
-    public ArrayList<ZRS> vratiZRSTabelu() {
-        return dbb.vratiZRSTabelu();
-    }
-
-    public boolean obrisiZRS(ZRS raspored) {
-        return dbb.obrisiZRS(raspored);
+        return true;
     }
     
      /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
+   
     
-
-    public ArrayList<Mesto> vratiMesta() {
-        return dbb.vratiMesta();
-    }
-
-    public boolean dodajMesto(Mesto m) {
-        try {
-            return dbb.dodajMesto(m);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public ArrayList<Mesto> getListMesta() throws Exception{
+        SOGetListMesto so = new SOGetListMesto();
+        so.templateExecute(new Mesto());
+        ArrayList<Mesto> mesta = so.getMesta();
+        if (mesta.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita sva mesta");
         }
-        return false;
+        return mesta;
     }
 
-    public boolean obrisiMesto(int id) {
-        return dbb.obrisiMesto(id);
-    }
+    
+    public boolean dodajMesto(Mesto m) throws Exception {
 
-    public boolean izmeniMesto(Mesto izmenjenoMesto) {
-        try {
-            return dbb.izmeniMesto(izmenjenoMesto);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+        SOKreirajMesto so = new SOKreirajMesto();
+        so.templateExecute(m);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("Mesto nije dodato!!!");
         }
-        return false;
+        return true;
     }
     
-    public ArrayList<Mesto> pretraziMesta(String grad) {
-        return dbb.pretraziMesta(grad);
+    public boolean obrisiMesto(Mesto m) throws Exception {
+
+        try{
+        SOObrisiMesto so = new SOObrisiMesto();
+        so.templateExecute(m);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izbrise mesto");
+            
+        }
+        }catch(Exception e){
+            throw new Exception("Ne mozete izbrisati mesto");
+        }
+        
+        return true;
     }
     
-    public ArrayList<Mesto> pretraziIDMesta(int id) {
-        return dbb.vratiIDMesta(id);
+    
+
+    public boolean izmeniMesto(Mesto izmenjenoMesto) throws Exception {
+        SOIzmeniMesto so = new SOIzmeniMesto();
+        so.templateExecute(izmenjenoMesto);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izmeni mesto");
+        }
+        return true;
     }
     
+
+    
+    public Mesto pretraziIDMesta(Mesto idMesta) throws Exception {
+        SOUcitajMestoID so = new SOUcitajMestoID();
+        so.templateExecute(idMesta);
+        Mesto m = so.getM();
+        
+        if (m==null) {
+            throw new Exception("Sistem nije uspeo da ucita mesto");
+        }
+        return m;
+    }
+    
+    public ArrayList<Mesto> pretraziNazivMesto(Mesto nazivM) throws Exception {
+        SOPretraziMestaNaziv so = new SOPretraziMestaNaziv();
+        so.templateExecute(nazivM);
+        ArrayList<Mesto> mestaPoNazivu = so.getMesta();
+        if (mestaPoNazivu.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita klijente");
+        }
+        return mestaPoNazivu;
+    }
+    
+
      /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-    public ArrayList<Klijent> vratiKlijente() {
-        return dbb.vratiKlijente();
+    public ArrayList<Klijent> vratiKlijente() throws Exception {
+        SOGetListKlijent so = new SOGetListKlijent();
+        so.templateExecute(new Klijent());
+        ArrayList<Klijent> klijenti = so.getKlijenti();
+        if (klijenti.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita Klijente");
+        }
+        return klijenti;
     }
 
-    public boolean kreirajKlijenta(Klijent k) {
-        try {
-            return dbb.kreirajKlijenta(k);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean dodajKlijenta(Klijent k) throws Exception {
+        SOKreirajKlijenta so = new SOKreirajKlijenta();
+        so.templateExecute(k);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("Klijent nije dodato!!!");
         }
-        return false;
+        return true;
     }
     
-    public boolean obrisiKlijenta(int idk) {
-        return dbb.obrisiKlijenta(idk);
+      public boolean obrisiKlijenta(Klijent obrisiK) throws Exception {
+        try {
+            SOObrisiKlijenta so = new SOObrisiKlijenta();
+            so.templateExecute(obrisiK);
+            int affectedRows = so.getAffectedRows();
+            if (affectedRows == 0) {
+                throw new Exception("Sistem nije uspeo da izbrise klijenta");
+
+            }
+        } catch (Exception e) {
+            throw new Exception("Ne mozete izbrisati klijenta");
+        }
+
+        return true;
     }
 
-    public boolean izmeniKlijenta(Klijent izmenjenKlijent) {
-        try {
-            return dbb.izmeniKlijenta(izmenjenKlijent);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean izmeniKlijenta(Klijent izmenjenKlijent) throws Exception {
+        SOIzmeniKlijenta so = new SOIzmeniKlijenta();
+        so.templateExecute(izmenjenKlijent);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izmeni klijenta");
         }
-        return false;
+        return true;
     }
+  
+    public ArrayList<Klijent> pretraziNazivKlijent(Klijent nazivK) throws Exception {
+        SOPretraziKlijentaNaziv so = new SOPretraziKlijentaNaziv();
+        so.templateExecute(nazivK);
+        ArrayList<Klijent> klijentiPoNazivu = so.getKlijenti();
+        if (klijentiPoNazivu.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita klijente");
+        }
+        return klijentiPoNazivu;
+    }
+
     
-    public ArrayList<Klijent> pretraziKlijente(String imek) {
-        return dbb.pretraziKlijente(imek);
+    
+    public Klijent pretraziIDKlijent(Klijent idK) throws Exception {
+        SOPretraziKlijentaID so = new SOPretraziKlijentaID();
+        so.templateExecute(idK);
+        Klijent k = so.getK();
+        
+        if (k==null) {
+            throw new Exception("Sistem nije uspeo da ucita klijenta");
+        }
+        return k;
     }
     
     public ArrayList<Mesto> vratiAdrese() {
         return dbb.vratiAdrese();
     }
-    
-    public ArrayList<Klijent> pretraziIDKlijenta(int id) {
-        
-        return dbb.vratiKlijentaPoID(id);
-    }
-    
      /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-    public ArrayList<Vozilo> vratiVozila() {
-        return dbb.vratiVozila();
-    }
-
-    public boolean dodajVozilo(Vozilo v) {
-        try {
-            return dbb.dodajVozilo(v);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public ArrayList<Vozilo> getListVozila() throws Exception {
+        SOGetListVozilo so = new SOGetListVozilo();
+        so.templateExecute(new Vozilo());
+        ArrayList<Vozilo> vozila = so.getVozila();
+        if (vozila.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita sva vozila");
         }
-        return false;
+        return vozila;
     }
-
-    public boolean obrisiVozilo(int idv) {
-        return dbb.obrisiVozilo(idv);
-    }
-
-    public boolean izmeniVozilo(Vozilo vozilo) {
-        try {
-            return dbb.izmeniVozilo(vozilo);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    
+    public boolean dodajVozilo(Vozilo v) throws Exception {
+        SOKreirajVozilo so = new SOKreirajVozilo();
+        so.templateExecute(v);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("Vozilo nije dodato!!!");
         }
-        return false;
+        return true;
     }
 
-    public ArrayList<Vozilo> pretraziVozila(String model) {
-        return dbb.pretraziVozila(model);
+     public boolean obrisiVozilo(Vozilo voz) throws Exception {
+        try {
+            SOObrisiVozilo so = new SOObrisiVozilo();
+            so.templateExecute(voz);
+            int affectedRows = so.getAffectedRows();
+            if (affectedRows == 0) {
+                throw new Exception("Sistem nije uspeo da izbrise vozilo");
+
+            }
+        } catch (Exception e) {
+            throw new Exception("Ne mozete izbrisati vozilo");
+        }
+
+        return true;
     }
+
+     public boolean izmeniVozilo(Vozilo izmenjenoVozilo) throws Exception {
+         SOIzmeniVozilo so = new SOIzmeniVozilo();
+        so.templateExecute(izmenjenoVozilo);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izmeni vozilo");
+        }
+        return true;
+     }
+
+
+
+
+
+    public ArrayList<Vozilo> pretraziNazivVozilo(Vozilo nazivV) throws Exception {
+        SOPretraziVozilaNaziv so = new SOPretraziVozilaNaziv();
+        so.templateExecute(nazivV);
+        ArrayList<Vozilo> vozilaPoNazivu = so.getVozila();
+        if (vozilaPoNazivu.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita vozila");
+        }
+        return vozilaPoNazivu;
+    }
+
 
     
-    public ArrayList<Vozilo> pretraziIDVozila(int idvozila) {
-        return dbb.vratiAutoID(idvozila);
+    public Vozilo pretraziIDVozilo(Vozilo idV) throws Exception {
+        SOPretraziVoziloID so = new SOPretraziVoziloID();
+        so.templateExecute(idV);
+        Vozilo v = so.getV();
+        
+        if (v==null) {
+            throw new Exception("Sistem nije uspeo da ucita vozilo");
+        }
+        return v;
     }
+    
+    
     /* ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
-    public ArrayList<Rezervacija> vratiRezervacije() {
-        return dbb.vratiRezervacije();
-    }
+    
 
-
-    public boolean kreirajStavkuRez(StavkaRezervacije sr) {
-        try {
-            return dbb.kreirajStavkuRezervacije(sr);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public ArrayList<Rezervacija> getListRez() throws Exception {
+        SOGetListRezervacija so = new SOGetListRezervacija();
+        so.templateExecute(new Rezervacija());
+        ArrayList<Rezervacija> rezervacije = so.getRezervacije();
+        if (rezervacije.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita sve rez");
         }
+        return rezervacije;
         
-        return false;
     }
 
-    public boolean kreirajRez(Rezervacija r) {
-        try {
-            return dbb.kreirajRezervaciju(r);
-        } catch (SQLException ex) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean dodajStavku(StavkaRezervacije sr) throws Exception {
+        SOKreirajStavku so = new SOKreirajStavku();
+        so.templateExecute(sr);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("Rez nije dodata!!!");
         }
-        
-        return false;
+        return true;
     }
+    
+    
 
-    public boolean obrisiRezervaciju(int idr) {
-        return dbb.obrisiRezervaciju(idr);
+    public boolean dodajRez(Rezervacija r) throws Exception {
+        SOKreirajRez so = new SOKreirajRez();
+        so.templateExecute(r);
+        int id = so.getId();
+        if (id == -1) {
+            throw new Exception("Rez nije dodata!!!");
+        }
+        return true;
     }
+    
+
+    public boolean obrisiRezu(Rezervacija reza) throws Exception {
+        try {
+            SOObrisiRezervaciju so = new SOObrisiRezervaciju();
+            so.templateExecute(reza);
+            int affectedRows = so.getAffectedRows();
+            if (affectedRows == 0) {
+                throw new Exception("Sistem nije uspeo da izbrise rez");
+
+            }
+        } catch (Exception e) {
+            throw new Exception("Ne mozete izbrisati rez");
+        }
+        return true;
+    }
+    
+   
 
     public ArrayList<Rezervacija> pretraziRez(LocalDate datum) {
         return dbb.pretraziRezervacije(datum);
     }
 
-    public ArrayList<StavkaRezervacije> vratiStavkeRez(int id) {
-        return dbb.vratiStavkeRez(id);
+    public ArrayList<StavkaRezervacije> getListStavke() throws Exception {
+        SOGetListStavke so = new SOGetListStavke();
+        so.templateExecute(new StavkaRezervacije());
+        ArrayList<StavkaRezervacije> sr = so.getSr();
+        if (sr.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita sve stavke");
+        }
+        return sr;
     }
+    
+    
+    public boolean obrisiStavku(StavkaRezervacije stavka) throws Exception {
+        try {
+            SOObrisiStavku so = new SOObrisiStavku();
+            so.templateExecute(stavka);
+            int affectedRows = so.getAffectedRows();
+            if (affectedRows == 0) {
+                throw new Exception("Sistem nije uspeo da izbrise stavku");
 
-    public boolean obrisiStavku(int rb) {
-        return dbb.obrisiStavku(rb);
+            }
+        } catch (Exception e) {
+            throw new Exception("Ne mozete izbrisati stavku");
+        }
+        return true;
     }
 
     public boolean apdejtujIznos(int id) throws SQLException {
         return dbb.apdejtujIznosRezervacije(id);
     }
 
-    public ArrayList<Rezervacija> pretraziRezPoID(int idrez) {
-        return dbb.vratiRezPoID(idrez);
+    public Rezervacija pretraziIDRez(Rezervacija idR) throws Exception {
+        SOPretraziRezID so = new SOPretraziRezID();
+        so.templateExecute(idR);
+        Rezervacija r = so.getR();
+        
+        if (r==null) {
+            throw new Exception("Sistem nije uspeo da ucita rezervaciju");
+        }
+        return r;
     }
+    
+    
 
     public ArrayList<Rezervacija> pretraziRezModelKlijent(String modelKlijent) {
         System.out.println("Unos iz text fielda: '" + modelKlijent + "'");
@@ -313,34 +619,67 @@ public class Kontroler {
         return dbb.vratiRezModelKlijent(modelKlijent);
     }
 
-    public ArrayList<Rezervacija> pretraziRezPoZap(int idzap) {
-        return dbb.vratiRezPoZaposlenom(idzap);
+    
+
+    public boolean izmeniRez(Rezervacija rez) throws Exception {
+         SOIzmeniRez so = new SOIzmeniRez();
+        so.templateExecute(rez);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izmeni rezervaciju");
+        }
+        return true;
     }
 
-    
+    public boolean izmeniStavkuRez(StavkaRezervacije srez) throws Exception {
+        SOIzmeniStavku so = new SOIzmeniStavku();
+        so.templateExecute(srez);
+        int affectedRows = so.getAffectedRows();
+        if (affectedRows == 0) {
+            throw new Exception("Sistem nije uspeo da izmeni stavku");
+        }
+        return true;
+    }
 
-    
+    public ArrayList<StavkaRezervacije> getListStavkiPoID(StavkaRezervacije sr) throws Exception {
+        SOVratiStavkeRez so = new SOVratiStavkeRez();
+        so.templateExecute(sr);
+        ArrayList<StavkaRezervacije> stavkeRez = so.getStavke();
+        if (stavkeRez.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita stavke");
+        }
+        return stavkeRez;
+    }
 
-    
+    public ArrayList<Rezervacija> pretraziZapID(Rezervacija zapR) throws Exception {
+        SOPretraziRezPoZap so = new SOPretraziRezPoZap();
+        so.templateExecute(zapR);
+        ArrayList<Rezervacija> zapPoID = so.getReeze();
+        if (zapPoID.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita rez");
+        }
+        return zapPoID;
+    }
 
-    
+    public ArrayList<Rezervacija> pretraziRezIDKlijent(Rezervacija klijentR) throws Exception {
+        SOPretraziRezPoKlijentID so = new SOPretraziRezPoKlijentID();
+        so.templateExecute(klijentR);
+        ArrayList<Rezervacija> klijentID = so.getReeze();
+        if (klijentID.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita rez");
+        }
+        return klijentID;
+    }
 
-    
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+    public ArrayList<Rezervacija> pretraziRezModel(Rezervacija modelR) throws Exception {
+        SOPretraziRezPoVozilu so = new SOPretraziRezPoVozilu();
+        so.templateExecute(modelR);
+        ArrayList<Rezervacija> rezModel = so.getReze();
+        if (rezModel.isEmpty()) {
+            throw new Exception("Sistem nije uspeo ucita rez");
+        }
+        return rezModel;
+    }
 
     
 

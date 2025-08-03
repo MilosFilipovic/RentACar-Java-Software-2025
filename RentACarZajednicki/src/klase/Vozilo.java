@@ -5,12 +5,19 @@
 package klase;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Miloš
  */
-public class Vozilo implements Serializable{
+public class Vozilo extends AbstractDomainObject{
+
     private int idVozilo;
     private String model;
     private double cenaDana;
@@ -94,6 +101,88 @@ public class Vozilo implements Serializable{
     @Override
     public String toString() {
         return model;
+    }
+
+    @Override
+    public String tableName() {
+        return "vozilo";
+    }
+
+    @Override
+    public String alies() {
+        return "";
+    }
+
+    @Override
+    public String textJoin() {
+        return "";
+    }
+
+    @Override
+    public String insertColumns() {
+        return "(model, cenaDana, karoserija, konjaza, kubikaza, boja)";
+    }
+
+    @Override
+    public String insertValues() {
+        return "'" + model + "', '" + cenaDana+"', '" + karoserija +"', '" + konjaza+"', '" + kubikaza +"', '" + boja +"'";
+    }
+
+    @Override
+    public String updateValues() {
+        return "model= '" + model + "', cenaDana= '" + cenaDana+"', karoserija= '" + karoserija +"', konjaza= '" + konjaza+"', kubikaza= '" + kubikaza +"', boja= '" + boja +"'";
+    }
+
+    @Override
+    public String requiredCondition() {
+        return "idVozilo=" + idVozilo;
+    }
+
+    @Override
+    public String conditionForSelect() {
+        if (model == null && cenaDana == 0 && karoserija == null && konjaza == null && kubikaza == null && boja == null) {
+            return "";
+        }
+        return " WHERE model= " + "'" + model + "'";
+    }
+
+    @Override
+    public String getIdCondition() {
+        return " WHERE idVozilo= " + idVozilo;
+    }
+
+    @Override
+    public AbstractDomainObject getAdo(ResultSet rs) {
+        Vozilo v = new Vozilo();
+        try {
+            v = new Vozilo(rs.getInt("idVozilo"), rs.getString("model"), rs.getDouble("cenaDana"), rs.getString("karoserija"), rs.getString("konjaza"), rs.getString("kubikaza"), rs.getString("boja"));
+        } catch (SQLException ex) {
+            Logger.getLogger(Klijent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return v;
+    }
+    
+    @Override
+    public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
+        ArrayList<AbstractDomainObject> lista = new ArrayList<>();
+
+        while (rs.next()) {
+
+            int idV = rs.getInt("idVozilo");
+            String model = rs.getString("model");
+            double cena = rs.getDouble("cenaDana");
+            String karoserija = rs.getString("karoserija");
+            String konjaza = rs.getString("konjaza");
+            String kubikaza = rs.getString("kubikaza");
+            String boja = rs.getString("boja");
+
+            Vozilo v = new Vozilo(idV, model, cena, karoserija, konjaza, kubikaza, boja);
+
+            lista.add(v);
+        }
+        rs.close();
+        return lista;
     }
     
     

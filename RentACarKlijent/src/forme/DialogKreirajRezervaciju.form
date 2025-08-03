@@ -116,6 +116,9 @@
           <Format format="yyyy-MM-dd" subtype="-1" type="1"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ftxtDatumPreuzimanjaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="ftxtDatumVracanja">
       <Properties>
